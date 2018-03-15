@@ -336,16 +336,16 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
         switch Section(rawValue: indexPath.section)! {
         case .device:
             switch DeviceRow(rawValue: indexPath.row)! {
-            case .customName:
-                let vc = TextFieldTableViewController()
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    vc.title = cell.textLabel?.text
-                    vc.value = device.name
-                    vc.delegate = self
-                    vc.keyboardType = .default
-                }
+//            case .customName:
+//                let vc = TextFieldTableViewController()
+//                if let cell = tableView.cellForRow(at: indexPath) {
+//                    vc.title = cell.textLabel?.text
+//                    vc.value = device.name
+//                    vc.delegate = self
+//                    vc.keyboardType = .default
+//                }
 
-                show(vc, sender: indexPath)
+//                show(vc, sender: indexPath)
             default:
                 break
             }
