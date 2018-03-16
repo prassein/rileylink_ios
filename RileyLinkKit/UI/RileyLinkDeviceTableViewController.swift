@@ -192,7 +192,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
             case .customName:
                 cell.textLabel?.text = NSLocalizedString("Name", comment: "The title of the cell showing device name")
                 cell.detailTextLabel?.text = device.name
-                cell.accessoryType = .disclosureIndicator
+                cell.accessoryType = .none
             case .version:
                 cell.textLabel?.text = NSLocalizedString("Firmware", comment: "The title of the cell showing firmware version")
                 cell.detailTextLabel?.text = device.firmwareVersion
