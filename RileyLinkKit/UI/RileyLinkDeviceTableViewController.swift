@@ -147,7 +147,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
         case tune
         case changeTime
         case mySentryPair
-//        case dumpHistory
+        case dumpHistory
 //        case fetchGlucose
 //        case writeGlucoseHistoryTimestamp
         case getPumpModel
@@ -277,8 +277,8 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
             case .mySentryPair:
                 cell.textLabel?.text = NSLocalizedString("MySentry Pair", comment: "The title of the command to pair with mysentry")
 
-//            case .dumpHistory:
-//                cell.textLabel?.text = NSLocalizedString("Fetch Recent History", comment: "The title of the command to fetch recent history")
+            case .dumpHistory:
+                cell.textLabel?.text = NSLocalizedString("Fetch Recent History", comment: "The title of the command to fetch recent history")
 //
 //            case .fetchGlucose:
 //                cell.textLabel?.text = NSLocalizedString("Fetch Recent Glucose", comment: "The title of the command to fetch recent glucose")
@@ -440,25 +440,25 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
                         comment: "Pump find device instruction"
                     )
                 }
-//            case .dumpHistory:
-//                vc = CommandResponseViewController { [unowned self] (completionHandler) -> String in
-//                    let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-//                    let oneDayAgo = calendar.date(byAdding: DateComponents(day: -1), to: Date())
-//
-//                    self.device.ops?.getHistoryEvents(since: oneDayAgo!) { (response) -> Void in
-//                        switch response {
-//                        case .success(let (events, _)):
-//                            var responseText = String(format:"Found %d events since %@", events.count, oneDayAgo! as NSDate)
-//                            for event in events {
-//                                responseText += String(format:"\nEvent: %@", event.dictionaryRepresentation)
-//                            }
-//                            completionHandler(responseText)
-//                        case .failure(let error):
-//                            completionHandler(String(describing: error))
-//                        }
-//                    }
-//                    return NSLocalizedString("Fetching history…", comment: "Progress message for fetching pump history.")
-//                }
+            case .dumpHistory:
+                vc = CommandResponseViewController { [unowned self] (completionHandler) -> String in
+                    let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+                    let oneDayAgo = calendar.date(byAdding: DateComponents(day: -1), to: Date())
+
+                    self.device.ops?.getHistoryEvents(since: oneDayAgo!) { (response) -> Void in
+                        switch response {
+                        case .success(let (events, _)):
+                            var responseText = String(format:"Found %d events since %@", events.count, oneDayAgo! as NSDate)
+                            for event in events {
+                                responseText += String(format:"\nEvent: %@", event.dictionaryRepresentation)
+                            }
+                            completionHandler(responseText)
+                        case .failure(let error):
+                            completionHandler(String(describing: error))
+                        }
+                    }
+                    return NSLocalizedString("Fetching history…", comment: "Progress message for fetching pump history.")
+                }
 //            case .fetchGlucose:
 //                vc = CommandResponseViewController { [unowned self] (completionHandler) -> String in
 //                    let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
