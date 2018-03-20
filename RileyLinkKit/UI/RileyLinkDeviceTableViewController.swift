@@ -148,7 +148,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
         case changeTime
         case mySentryPair
         case dumpHistory
-        case fetchGlucose
+//        case fetchGlucose
 //        case writeGlucoseHistoryTimestamp
         case getPumpModel
         case pressDownButton
@@ -280,8 +280,8 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
             case .dumpHistory:
                 cell.textLabel?.text = NSLocalizedString("Fetch Recent History", comment: "The title of the command to fetch recent history")
 
-            case .fetchGlucose:
-                cell.textLabel?.text = NSLocalizedString("Fetch Recent Glucose", comment: "The title of the command to fetch recent glucose")
+//            case .fetchGlucose:
+//                cell.textLabel?.text = NSLocalizedString("Fetch Recent Glucose", comment: "The title of the command to fetch recent glucose")
 
 //            case .writeGlucoseHistoryTimestamp:
 //                cell.textLabel?.text = NSLocalizedString("Write Glucose History Timestamp", comment: "The title of the command to write a glucose history timestamp")
@@ -459,24 +459,24 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
                     }
                     return NSLocalizedString("Fetching history…", comment: "Progress message for fetching pump history.")
                 }
-            case .fetchGlucose:
-                vc = CommandResponseViewController { [unowned self] (completionHandler) -> String in
-                    let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-                    let oneDayAgo = calendar.date(byAdding: DateComponents(day: -1), to: Date())
-                    self.device.ops?.getGlucoseHistoryEvents(since: oneDayAgo!) { (response) -> Void in
-                        switch response {
-                        case .success(let events):
-                            var responseText = String(format:"Found %d events since %@", events.count, oneDayAgo! as NSDate)
-                            for event in events {
-                                responseText += String(format:"\nEvent: %@", event.dictionaryRepresentation)
-                            }
-                            completionHandler(responseText)
-                        case .failure(let error):
-                            completionHandler(String(describing: error))
-                        }
-                    }
-                    return NSLocalizedString("Fetching glucose…", comment: "Progress message for fetching pump glucose.")
-                }
+//            case .fetchGlucose:
+//                vc = CommandResponseViewController { [unowned self] (completionHandler) -> String in
+//                    let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+//                    let oneDayAgo = calendar.date(byAdding: DateComponents(day: -1), to: Date())
+//                    self.device.ops?.getGlucoseHistoryEvents(since: oneDayAgo!) { (response) -> Void in
+//                        switch response {
+//                        case .success(let events):
+//                            var responseText = String(format:"Found %d events since %@", events.count, oneDayAgo! as NSDate)
+//                            for event in events {
+//                                responseText += String(format:"\nEvent: %@", event.dictionaryRepresentation)
+//                            }
+//                            completionHandler(responseText)
+//                        case .failure(let error):
+//                            completionHandler(String(describing: error))
+//                        }
+//                    }
+//                    return NSLocalizedString("Fetching glucose…", comment: "Progress message for fetching pump glucose.")
+//                }
 //            case .writeGlucoseHistoryTimestamp:
 //                vc = CommandResponseViewController { [unowned self] (completionHandler) -> String in
 //                    self.device.ops?.writeGlucoseHistoryTimestamp() { (response) -> Void in
