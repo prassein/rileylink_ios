@@ -14,7 +14,7 @@ let CellIdentifier = "Cell"
 public class RileyLinkDeviceTableViewController: UITableViewController, TextFieldTableViewControllerDelegate {
 
     public var device: RileyLinkDevice!
-    
+
     var rssiFetchTimer: Timer? {
         willSet {
             rssiFetchTimer?.invalidate()
@@ -34,9 +34,8 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
 
         self.observe()
     }
-    
-    @objc func updateRSSI()
-    {
+
+    @objc func updateRSSI() {
         guard case .connected = device.peripheral.state else {
             return
         }
@@ -45,7 +44,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
 
     // References to registered notification center observers
     private var notificationObservers: [Any] = []
-    
+
     deinit {
         for observer in notificationObservers {
             NotificationCenter.default.removeObserver(observer)
@@ -63,7 +62,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
     private func observe() {
         let center = NotificationCenter.default
         let mainQueue = OperationQueue.main
-        
+
         notificationObservers = [
             center.addObserver(forName: .DeviceNameDidChange, object: nil, queue: mainQueue) { [weak self = self] (note) -> Void in
                 let indexPath = IndexPath(row: DeviceRow.customName.rawValue, section: Section.device.rawValue)
@@ -80,19 +79,19 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
             }
         ]
     }
-    
+
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if appeared {
             tableView.reloadData()
         }
-        
+
         rssiFetchTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(updateRSSI), userInfo: nil, repeats: true)
 
         appeared = true
     }
-    
+
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         rssiFetchTimer = nil
@@ -285,7 +284,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
 
 //            case .writeGlucoseHistoryTimestamp:
 //                cell.textLabel?.text = NSLocalizedString("Write Glucose History Timestamp", comment: "The title of the command to write a glucose history timestamp")
-                
+
             case .getPumpModel:
                 cell.textLabel?.text = NSLocalizedString("Get Pump Model", comment: "The title of the command to get pump model")
 
@@ -297,7 +296,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
 
             case .readBasalSchedule:
                 cell.textLabel?.text = NSLocalizedString("Read Basal Schedule", comment: "The title of the command to read basal schedule")
-}
+            }
         }
 
         return cell
@@ -368,10 +367,10 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
                             resultDict[NSLocalizedString("Trials", comment: "The label indicating the results of each frequency trial")] = scanResult.trials.map({ (trial) -> String in
 
                                 return String(format: formatString,
-                                    self.decimalFormatter.string(from: NSNumber(value: trial.frequencyMHz))!,
-                                    intFormatter.string(from: NSNumber(value: trial.successes))!,
-                                    intFormatter.string(from: NSNumber(value: trial.tries))!,
-                                    intFormatter.string(from: NSNumber(value: trial.avgRSSI))!
+                                        self.decimalFormatter.string(from: NSNumber(value: trial.frequencyMHz))!,
+                                        intFormatter.string(from: NSNumber(value: trial.successes))!,
+                                        intFormatter.string(from: NSNumber(value: trial.tries))!,
+                                        intFormatter.string(from: NSNumber(value: trial.avgRSSI))!
                                 )
                             })
 
@@ -429,15 +428,15 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
                     }
 
                     return NSLocalizedString(
-                        "On your pump, go to the Find Device screen and select \"Find Device\"." +
-                            "\n" +
-                            "\nMain Menu >" +
-                            "\nUtilities >" +
-                            "\nConnect Devices >" +
-                            "\nOther Devices >" +
-                            "\nOn >" +
-                        "\nFind Device",
-                        comment: "Pump find device instruction"
+                            "On your pump, go to the Find Device screen and select \"Find Device\"." +
+                                    "\n" +
+                                    "\nMain Menu >" +
+                                    "\nUtilities >" +
+                                    "\nConnect Devices >" +
+                                    "\nOther Devices >" +
+                                    "\nOn >" +
+                                    "\nFind Device",
+                            comment: "Pump find device instruction"
                     )
                 }
             case .dumpHistory:
@@ -448,9 +447,9 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
                     self.device.ops?.getHistoryEvents(since: oneDayAgo!) { (response) -> Void in
                         switch response {
                         case .success(let (events, _)):
-                            var responseText = String(format:"Found %d events since %@", events.count, oneDayAgo! as NSDate)
+                            var responseText = String(format: "Found %d events since %@", events.count, oneDayAgo! as NSDate)
                             for event in events {
-                                responseText += String(format:"\nEvent: %@", event.dictionaryRepresentation)
+                                responseText += String(format: "\nEvent: %@", event.dictionaryRepresentation)
                             }
                             completionHandler(responseText)
                         case .failure(let error):
@@ -552,7 +551,7 @@ public class RileyLinkDeviceTableViewController: UITableViewController, TextFiel
                             }
                         }
                     }
-                    
+
                     return NSLocalizedString("Reading basal schedule…", comment: "Progress message for reading basal schedule")
                 }
             }
