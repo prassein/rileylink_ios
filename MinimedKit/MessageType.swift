@@ -33,9 +33,9 @@ public enum MessageType: UInt8 {
     case readCurrentPageNumber        = 0x9d
     case readSettings                 = 0xc0
     case readCurrentGlucosePage       = 0xcd
-    case readPumpStatus               = 131
-//    case readPumpStatus               = 0xce
-//    case readPumpStatus712            = 131
+//    case readPumpStatus               = 131
+    case readPumpStatus               = 0xce
+    case readPumpStatus712            = 131
 
     var bodyType: MessageBody.Type {
         switch self {
@@ -70,6 +70,9 @@ public enum MessageType: UInt8 {
         case .readRemainingInsulin:
             return ReadRemainingInsulinMessageBody.self
         case .readPumpStatus:
+            return ReadPumpStatusMessageBody.self
+        case .readPumpStatus712:
+            is712JZW = true;
             return ReadPumpStatusMessageBody.self
         case .readCurrentGlucosePage:
             return ReadCurrentGlucosePageMessageBody.self

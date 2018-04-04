@@ -720,17 +720,29 @@ class PumpOpsSynchronous {
 
         let battResp: GetBatteryCarelinkMessageBody = try messageBody(to: .getBattery)
 
-        let statusResp: ReadPumpStatusMessageBody = try messageBody(to: .readPumpStatus)
+//        let statusResp: ReadPumpStatusMessageBody = try messageBody(to: .readPumpStatus)
+        let statusResp: ReadPumpStatusMessageBody = try readPumpStatusMessageBody();
 
         return PumpStatus(clock: clockResp.dateComponents, batteryVolts: battResp.volts, batteryStatus: battResp.status, suspended: statusResp.suspended, bolusing: statusResp.bolusing, reservoir: reservoir, model: pumpModel, pumpID: pump.pumpID)
 
+    }
+
+    private func readPumpStatusMessageBody() throws -> ReadPumpStatusMessageBody {
+        let statusResp: ReadPumpStatusMessageBody = try? messageBody(to: .readPumpStatus)
+
+        if !statusResp {
+            statusResp = try messageBody(to: .readPumpStatus712)
+        }
+
+        return statusResp;
     }
 
     internal func setNormalBolus(units: Double, cancelExistingTemp: Bool) -> SetBolusError? {
         do {
             let pumpModel = try getPumpModel()
 
-            let statusResp: ReadPumpStatusMessageBody = try messageBody(to: .readPumpStatus)
+//            let statusResp: ReadPumpStatusMessageBody = try messageBody(to: .readPumpStatus)
+            let statusResp: ReadPumpStatusMessageBody = try readPumpStatusMessageBody();
 
             if statusResp.bolusing {
                 throw PumpCommsError.bolusInProgress
