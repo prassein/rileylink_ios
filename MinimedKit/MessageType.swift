@@ -33,8 +33,10 @@ public enum MessageType: UInt8 {
     case readCurrentPageNumber        = 0x9d
     case readSettings                 = 0xc0
     case readCurrentGlucosePage       = 0xcd
-    case readPumpStatus               = 0xce
-    
+    case readPumpStatus               = 131
+//    case readPumpStatus               = 0xce
+//    case readPumpStatus712            = 131
+
     var bodyType: MessageBody.Type {
         switch self {
         case .alert:
