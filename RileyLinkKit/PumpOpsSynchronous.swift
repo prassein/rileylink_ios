@@ -728,13 +728,13 @@ class PumpOpsSynchronous {
     }
 
     private func readPumpStatusMessageBody() throws -> ReadPumpStatusMessageBody {
-        let statusResp: ReadPumpStatusMessageBody = try? messageBody(to: .readPumpStatus)
+        var statusResp: ReadPumpStatusMessageBody? = try? messageBody(to: .readPumpStatus)
 
-        if !statusResp {
+        if statusResp == nil {
             statusResp = try messageBody(to: .readPumpStatus712)
         }
 
-        return statusResp;
+        return statusResp!;
     }
 
     internal func setNormalBolus(units: Double, cancelExistingTemp: Bool) -> SetBolusError? {

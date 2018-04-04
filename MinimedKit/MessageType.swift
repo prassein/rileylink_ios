@@ -72,7 +72,6 @@ public enum MessageType: UInt8 {
         case .readPumpStatus:
             return ReadPumpStatusMessageBody.self
         case .readPumpStatus712:
-            is712JZW = true;
             return ReadPumpStatusMessageBody.self
         case .readCurrentGlucosePage:
             return ReadCurrentGlucosePageMessageBody.self
