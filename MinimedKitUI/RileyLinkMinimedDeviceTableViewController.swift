@@ -256,8 +256,8 @@ public class RileyLinkMinimedDeviceTableViewController: UITableViewController {
         case changeTime
         case mySentryPair
         case dumpHistory
-        case fetchGlucose
-        case getPumpModel
+//        case fetchGlucose
+//        case getPumpModel
         case pressDownButton
         case readPumpStatus
         case readBasalSchedule
@@ -310,7 +310,8 @@ public class RileyLinkMinimedDeviceTableViewController: UITableViewController {
             case .customName:
                 cell.textLabel?.text = LocalizedString("Name", comment: "The title of the cell showing device name")
                 cell.detailTextLabel?.text = device.name
-                cell.accessoryType = .disclosureIndicator
+//                cell.accessoryType = .disclosureIndicator
+                cell.accessoryType = .none
             case .version:
                 cell.textLabel?.text = LocalizedString("Firmware", comment: "The title of the cell showing firmware version")
                 cell.detailTextLabel?.text = firmwareVersion
@@ -367,11 +368,11 @@ public class RileyLinkMinimedDeviceTableViewController: UITableViewController {
             case .dumpHistory:
                 cell.textLabel?.text = LocalizedString("Fetch Recent History", comment: "The title of the command to fetch recent history")
 
-            case .fetchGlucose:
-                cell.textLabel?.text = LocalizedString("Fetch Enlite Glucose", comment: "The title of the command to fetch recent glucose")
-                
-            case .getPumpModel:
-                cell.textLabel?.text = LocalizedString("Get Pump Model", comment: "The title of the command to get pump model")
+//            case .fetchGlucose:
+//                cell.textLabel?.text = LocalizedString("Fetch Enlite Glucose", comment: "The title of the command to fetch recent glucose")
+//
+//            case .getPumpModel:
+//                cell.textLabel?.text = LocalizedString("Get Pump Model", comment: "The title of the command to get pump model")
 
             case .pressDownButton:
                 cell.textLabel?.text = LocalizedString("Send Button Press", comment: "The title of the command to send a button press")
@@ -429,16 +430,16 @@ public class RileyLinkMinimedDeviceTableViewController: UITableViewController {
         switch Section(rawValue: indexPath.section)! {
         case .device:
             switch DeviceRow(rawValue: indexPath.row)! {
-            case .customName:
-                let vc = TextFieldTableViewController()
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    vc.title = cell.textLabel?.text
-                    vc.value = device.name
-                    vc.delegate = self
-                    vc.keyboardType = .default
-                }
-
-                show(vc, sender: indexPath)
+//            case .customName:
+//                let vc = TextFieldTableViewController()
+//                if let cell = tableView.cellForRow(at: indexPath) {
+//                    vc.title = cell.textLabel?.text
+//                    vc.value = device.name
+//                    vc.delegate = self
+//                    vc.keyboardType = .default
+//                }
+//
+//                show(vc, sender: indexPath)
             default:
                 break
             }
@@ -454,10 +455,10 @@ public class RileyLinkMinimedDeviceTableViewController: UITableViewController {
                 vc = .mySentryPair(ops: ops, device: device)
             case .dumpHistory:
                 vc = .dumpHistory(ops: ops, device: device)
-            case .fetchGlucose:
-                vc = .fetchGlucose(ops: ops, device: device)
-            case .getPumpModel:
-                vc = .getPumpModel(ops: ops, device: device)
+//            case .fetchGlucose:
+//                vc = .fetchGlucose(ops: ops, device: device)
+//            case .getPumpModel:
+//                vc = .getPumpModel(ops: ops, device: device)
             case .pressDownButton:
                 vc = .pressDownButton(ops: ops, device: device)
             case .readPumpStatus:

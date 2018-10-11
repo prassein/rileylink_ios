@@ -79,6 +79,7 @@ public enum MessageType: UInt8 {
     case readSettings                 = 0xc0
     case readCurrentGlucosePage       = 0xcd
     case readPumpStatus               = 0xce
+    case readPumpStatus712            = 0x83 //131
 
     case unknown_e2                   = 0xe2  // a7594040e214190226330000000000021f99011801e00103012c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     case unknown_e6                   = 0xe6  // a7594040e60200190000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -126,6 +127,8 @@ public enum MessageType: UInt8 {
         case .readRemainingInsulin:
             return ReadRemainingInsulinMessageBody.self
         case .readPumpStatus:
+            return ReadPumpStatusMessageBody.self
+        case .readPumpStatus712:
             return ReadPumpStatusMessageBody.self
         case .readCurrentGlucosePage:
             return ReadCurrentGlucosePageMessageBody.self

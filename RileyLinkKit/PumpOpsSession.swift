@@ -189,7 +189,19 @@ extension PumpOpsSession {
     ///     - PumpOpsError.unknownResponse
     internal func getPumpStatus() throws -> ReadPumpStatusMessageBody {
         try wakeup()
-        return try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
+//        return try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
+        return try readPumpStatusMessageBody()
+    }
+
+    private func readPumpStatusMessageBody() throws -> ReadPumpStatusMessageBody {
+        var statusResp: ReadPumpStatusMessageBody? = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
+
+        if statusResp == nil {
+//            statusResp = try messageBody(to: .readPumpStatus712)
+            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus)
+        }
+
+        return statusResp!;
     }
 
     /// - Throws:
