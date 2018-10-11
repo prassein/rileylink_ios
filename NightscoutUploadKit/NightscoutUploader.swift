@@ -6,7 +6,6 @@
 //  Copyright © 2016 Pete Schwamb. All rights reserved.
 //
 
-import UIKit
 import MinimedKit
 import Crypto
 
@@ -21,6 +20,7 @@ private let defaultNightscoutEntriesPath = "/api/v1/entries"
 private let defaultNightscoutTreatmentPath = "/api/v1/treatments"
 private let defaultNightscoutDeviceStatusPath = "/api/v1/devicestatus"
 private let defaultNightscoutAuthTestPath = "/api/v1/experiments/test"
+private let defaultNightscoutProfilePath = "/api/v1/profile"
 
 public class NightscoutUploader {
 
@@ -38,33 +38,14 @@ public class NightscoutUploader {
     private(set) var treatmentsQueue = [NightscoutTreatment]()
 
     private(set) var lastMeterMessageRxTime: Date?
-    
-    public private(set) var observingPumpEventsSince: Date!
-
-    private(set) var lastStoredTreatmentTimestamp: Date? {
-        get {
-            return UserDefaults.standard.lastStoredTreatmentTimestamp
-        }
-        set {
-            UserDefaults.standard.lastStoredTreatmentTimestamp = newValue
-        }
-    }
 
     public var errorHandler: ((_ error: Error, _ context: String) -> Void)?
 
-    private var dataAccessQueue: DispatchQueue = DispatchQueue(label: "com.rileylink.NightscoutUploadKit.dataAccessQueue", attributes: [])
-
-
-    public func reset() {
-        observingPumpEventsSince = Date(timeIntervalSinceNow: TimeInterval(hours: -24))
-        lastStoredTreatmentTimestamp = nil
-    }
+    private var dataAccessQueue: DispatchQueue = DispatchQueue(label: "com.rileylink.NightscoutUploadKit.dataAccessQueue", qos: .utility)
 
     public init(siteURL: URL, APISecret: String) {
         self.siteURL = siteURL
         self.apiSecret = APISecret
-        
-        observingPumpEventsSince = lastStoredTreatmentTimestamp ?? Date(timeIntervalSinceNow: TimeInterval(hours: -24))
     }
     
     // MARK: - Processing data from pump
@@ -77,33 +58,6 @@ public class NightscoutUploader {
      - parameter pumpModel: The pump model info associated with the events
      */
     public func processPumpEvents(_ events: [TimestampedHistoryEvent], source: String, pumpModel: PumpModel) {
-        
-        // Find valid event times
-        let newestEventTime = events.last?.date
-        
-        // Find the oldest event that might still be updated.
-        var oldestUpdatingEventDate: Date?
-
-        for event in events {
-            switch event.pumpEvent {
-            case let bolus as BolusNormalPumpEvent:
-                let deliveryFinishDate = event.date.addingTimeInterval(bolus.duration)
-                if newestEventTime == nil || deliveryFinishDate.compare(newestEventTime!) == .orderedDescending {
-                    // This event might still be updated.
-                    oldestUpdatingEventDate = event.date
-                    break
-                }
-            default:
-                continue
-            }
-        }
-        
-        if oldestUpdatingEventDate != nil {
-            observingPumpEventsSince = oldestUpdatingEventDate!
-        } else if newestEventTime != nil {
-            observingPumpEventsSince = newestEventTime!
-        }
-        
         for treatment in NightscoutPumpEvents.translate(events, eventSource: source) {
             treatmentsQueue.append(treatment)
         }
@@ -262,12 +216,25 @@ public class NightscoutUploader {
                 case .flat:
                     return "Flat"
                 }
-                }()
+            }()
             
             let entry = NightscoutEntry(glucose: glucose, timestamp: sensorDate, device: device, glucoseType: .Sensor, previousSGV: previousSGV, previousSGVNotActive: previousSGVNotActive, direction: direction)
             entries.append(entry)
         }
         flushAll()
+    }
+
+    public func uploadSGV(glucoseMGDL: Int, at date: Date, direction: String?, device: String) {
+        let entry = NightscoutEntry(
+            glucose: glucoseMGDL,
+            timestamp: date,
+            device: device,
+            glucoseType: .Sensor,
+            previousSGV: nil,
+            previousSGVNotActive: nil,
+            direction: direction
+        )
+        entries.append(entry)
     }
     
     public func handleMeterMessage(_ msg: MeterMessage) {
@@ -287,6 +254,18 @@ public class NightscoutUploader {
             entries.append(entry)
             lastMeterMessageRxTime = date
         }
+    }
+
+    // MARK: - Profiles
+
+    public func uploadProfile(profileSet: ProfileSet, completion: @escaping (Either<[String],Error>) -> Void)  {
+        postToNS([profileSet.dictionaryRepresentation], endpoint:defaultNightscoutProfilePath, completion: completion)
+    }
+    
+    public func updateProfile(profileSet: ProfileSet, id: String, completion: @escaping (Error?) -> Void) {
+        var rep = profileSet.dictionaryRepresentation
+        rep["_id"] = id
+        putToNS(rep, endpoint: defaultNightscoutProfilePath, completion: completion)
     }
 
     // MARK: - Uploading
@@ -476,10 +455,8 @@ public class NightscoutUploader {
                 self.errorHandler?(error, "Uploading nightscout treatment records")
                 // Requeue
                 self.treatmentsQueue.append(contentsOf: inFlight)
-            case .success(_):
-                if let last = inFlight.last {
-                    self.lastStoredTreatmentTimestamp = last.timestamp
-                }
+            case .success:
+                break
             }
         }
     }
