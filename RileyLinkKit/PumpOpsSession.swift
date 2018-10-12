@@ -194,11 +194,11 @@ extension PumpOpsSession {
     }
 
     private func readPumpStatusMessageBody() throws -> ReadPumpStatusMessageBody {
-        var statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
+        var statusResp: ReadPumpStatusMessageBody? = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
 
         if statusResp == nil {
 //            statusResp = try messageBody(to: .readPumpStatus712)
-            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus712)
+            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus)
         }
 
         return statusResp!;
