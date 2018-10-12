@@ -198,7 +198,7 @@ extension PumpOpsSession {
 
         if statusResp == nil {
 //            statusResp = try messageBody(to: .readPumpStatus712)
-            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus)
+            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus712)
         }
 
         return statusResp!;
