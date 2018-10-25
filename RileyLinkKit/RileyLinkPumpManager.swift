@@ -7,33 +7,41 @@
 
 import RileyLinkBLEKit
 
+
 open class RileyLinkPumpManager {
-    
-    public init(rileyLinkDeviceProvider: RileyLinkDeviceProvider,
-                rileyLinkConnectionManager: RileyLinkConnectionManager? = nil) {
-        
-        self.rileyLinkDeviceProvider = rileyLinkDeviceProvider
-        self.rileyLinkConnectionManager = rileyLinkConnectionManager
-        
+    public init(rileyLinkPumpManagerState: RileyLinkPumpManagerState, rileyLinkManager: RileyLinkDeviceManager? = nil) {
+        lockedRileyLinkPumpManagerState = Locked(rileyLinkPumpManagerState)
+
+        self.rileyLinkManager = rileyLinkManager ?? RileyLinkDeviceManager(autoConnectIDs: rileyLinkPumpManagerState.connectedPeripheralIDs)
+
         // Listen for device notifications
         NotificationCenter.default.addObserver(self, selector: #selector(receivedRileyLinkPacketNotification(_:)), name: .DevicePacketReceived, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(receivedRileyLinkTimerTickNotification(_:)), name: .DeviceTimerDidTick, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceStateDidChange(_:)), name: .DeviceStateDidChange, object: nil)
     }
-    
-    /// Manages all the RileyLinks - access to management is optional
-    public let rileyLinkConnectionManager: RileyLinkConnectionManager?
-    
-    open var rileyLinkConnectionManagerState: RileyLinkConnectionManagerState?
-    
-    /// Access to rileylink devices
-    public let rileyLinkDeviceProvider: RileyLinkDeviceProvider
-    
-    // TODO: Evaluate if this is necessary
+
+    /// Manages all the RileyLinks
+    public let rileyLinkManager: RileyLinkDeviceManager
+
+    open var rileyLinkPumpManagerState: RileyLinkPumpManagerState {
+        get {
+            return lockedRileyLinkPumpManagerState.value
+        }
+        set {
+            lockedRileyLinkPumpManagerState.value = newValue
+        }
+    }
+    private let lockedRileyLinkPumpManagerState: Locked<RileyLinkPumpManagerState>
+
+    // TODO: Eveluate if this is necessary
     public let queue = DispatchQueue(label: "com.loopkit.RileyLinkPumpManager", qos: .utility)
 
     /// Isolated to queue
     // TODO: Put this on each RileyLinkDevice?
     private var lastTimerTick: Date = .distantPast
+
+    // TODO: Isolate to queue
+    open var deviceStates: [UUID: DeviceState] = [:]
 
     /// Called when one of the connected devices receives a packet outside of a session
     ///
@@ -49,16 +57,30 @@ open class RileyLinkPumpManager {
     open var debugDescription: String {
         return [
             "## RileyLinkPumpManager",
-            "rileyLinkConnectionManager: \(String(reflecting: rileyLinkConnectionManager))",
+            "rileyLinkPumpManagerState: \(String(reflecting: rileyLinkPumpManagerState))",
             "lastTimerTick: \(String(describing: lastTimerTick))",
+            "deviceStates: \(String(reflecting: deviceStates))",
             "",
-            String(reflecting: rileyLinkDeviceProvider),
+            String(reflecting: rileyLinkManager),
         ].joined(separator: "\n")
     }
 }
 
+
 // MARK: - RileyLink Updates
 extension RileyLinkPumpManager {
+    @objc private func deviceStateDidChange(_ note: Notification) {
+        guard
+            let device = note.object as? RileyLinkDevice,
+            let deviceState = note.userInfo?[RileyLinkDevice.notificationDeviceStateKey] as? RileyLinkKit.DeviceState
+        else {
+            return
+        }
+
+        queue.async {
+            self.deviceStates[device.peripheralIdentifier] = deviceState
+        }
+    }
 
     /**
      Called when a new idle message is received by the RileyLink.
@@ -89,22 +111,14 @@ extension RileyLinkPumpManager {
             self.deviceTimerDidTick(device)
         }
     }
-    
+
     open func connectToRileyLink(_ device: RileyLinkDevice) {
-        rileyLinkConnectionManager?.connect(device)
+        rileyLinkPumpManagerState.connectedPeripheralIDs.insert(device.peripheralIdentifier.uuidString)
+        rileyLinkManager.connect(device)
     }
 
     open func disconnectFromRileyLink(_ device: RileyLinkDevice) {
-        rileyLinkConnectionManager?.disconnect(device)
-    }
-    
-}
-
-// MARK: - RileyLinkConnectionManagerDelegate
-extension RileyLinkPumpManager: RileyLinkConnectionManagerDelegate {
-    public func rileyLinkConnectionManager(_ rileyLinkConnectionManager: RileyLinkConnectionManager, didChange state: RileyLinkConnectionManagerState) {
-        self.rileyLinkConnectionManagerState = state
+        rileyLinkPumpManagerState.connectedPeripheralIDs.remove(device.peripheralIdentifier.uuidString)
+        rileyLinkManager.disconnect(device)
     }
 }
-
-

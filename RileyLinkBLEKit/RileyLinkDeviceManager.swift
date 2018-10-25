@@ -81,12 +81,6 @@ public class RileyLinkDeviceManager: NSObject {
 
 // MARK: - Connecting
 extension RileyLinkDeviceManager {
-    public func getAutoConnectIDs(_ completion: @escaping (_ autoConnectIDs: Set<String>) -> Void) {
-        centralQueue.async {
-            completion(self.autoConnectIDs)
-        }
-    }
-    
     public func connect(_ device: RileyLinkDevice) {
         centralQueue.async {
             self.autoConnectIDs.insert(device.manager.peripheral.identifier.uuidString)
@@ -173,7 +167,7 @@ extension RileyLinkDeviceManager {
         }
     }
 
-    public func deprioritize(_ device: RileyLinkDevice, completion: (() -> Void)? = nil) {
+    public func deprioritize(_ device: RileyLinkDevice, _ completion: (() -> Void)? = nil) {
         centralQueue.async {
             self.devices.deprioritize(device)
             completion?()
@@ -315,8 +309,3 @@ extension RileyLinkDeviceManager {
 extension Notification.Name {
     public static let ManagerDevicesDidChange = Notification.Name("com.rileylink.RileyLinkBLEKit.DevicesDidChange")
 }
-
-extension RileyLinkDeviceManager {
-    public static let autoConnectIDsStateKey = "com.rileylink.RileyLinkBLEKit.AutoConnectIDs"
-}
-

@@ -194,7 +194,7 @@ class MinimedPumpSettingsViewController: RileyLinkSettingsViewController {
         case .settings:
             switch SettingsRow(rawValue: indexPath.row)! {
             case .timeZoneOffset:
-                let vc = CommandResponseViewController.changeTime(ops: pumpManager.pumpOps, rileyLinkDeviceProvider: pumpManager.rileyLinkDeviceProvider)
+                let vc = CommandResponseViewController.changeTime(ops: pumpManager.pumpOps, rileyLinkManager: pumpManager.rileyLinkManager)
                 vc.title = sender?.textLabel?.text
 
                 show(vc, sender: indexPath)
@@ -214,10 +214,11 @@ class MinimedPumpSettingsViewController: RileyLinkSettingsViewController {
         case .rileyLinks:
             let device = devicesDataSource.devices[indexPath.row]
 
-            pumpManager.getOpsForDevice(device) { (pumpOps) in
+            pumpManager.getStateForDevice(device) { (deviceState, pumpOps) in
                 DispatchQueue.main.async {
                     let vc = RileyLinkMinimedDeviceTableViewController(
                         device: device,
+                        deviceState: deviceState,
                         pumpOps: pumpOps
                     )
 

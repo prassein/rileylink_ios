@@ -244,7 +244,6 @@ extension RileyLinkDevice {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        log.debug("didConnect %@", peripheral)
         if case .connected = peripheral.state {
             assertIdleListening(forceRestart: false)
             assertTimerTick()
@@ -256,12 +255,10 @@ extension RileyLinkDevice {
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        log.debug("didDisconnectPeripheral %@", peripheral)
         NotificationCenter.default.post(name: .DeviceConnectionStateDidChange, object: self)
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        log.debug("didFailToConnect %@", peripheral)
         NotificationCenter.default.post(name: .DeviceConnectionStateDidChange, object: self)
     }
 }
@@ -270,7 +267,6 @@ extension RileyLinkDevice {
 extension RileyLinkDevice: PeripheralManagerDelegate {
     // This is called from the central's queue
     func peripheralManager(_ manager: PeripheralManager, didUpdateValueFor characteristic: CBCharacteristic) {
-        log.debug("Did UpdateValueFor %@", characteristic)
         switch MainServiceCharacteristicUUID(rawValue: characteristic.uuid.uuidString) {
         case .data?:
             guard let value = characteristic.value, value.count > 0 else {

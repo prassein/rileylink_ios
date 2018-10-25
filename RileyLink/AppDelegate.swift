@@ -10,19 +10,24 @@ import UIKit
 import CoreData
 import RileyLinkKit
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    private(set) lazy var deviceDataManager = DeviceDataManager()
     
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let logFileURL = applicationDocumentsDirectory().appendingPathComponent("logfile.txt")
         
-        if let navController = self.window?.rootViewController as? UINavigationController {
-            let mainViewController = MainViewController(deviceDataManager: deviceDataManager)
-            navController.pushViewController(mainViewController, animated: false)
+        do {
+            try FileManager.default.removeItem(at: logFileURL)
+        } catch let error {
+            NSLog("Could not remove file at path: \(logFileURL): \(error)")
+        }
+        
+        // Just instantiate the DeviceDataManager
+        let delayTime = DispatchTime.now() + .seconds(1)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            _ = DeviceDataManager.sharedManager
         }
         
         return true
@@ -59,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         completionHandler(false)
-    }    
+    }
 }
 
 

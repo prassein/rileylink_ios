@@ -15,49 +15,40 @@ import os.log
 public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
     public static let managerIdentifier: String = "Minimed500"
 
-    public init(state: MinimedPumpManagerState, rileyLinkDeviceProvider: RileyLinkDeviceProvider, rileyLinkConnectionManager: RileyLinkConnectionManager? = nil, pumpOps: PumpOps? = nil) {
+    public init(state: MinimedPumpManagerState, rileyLinkManager: RileyLinkDeviceManager?) {
         self.state = state
 
-        super.init(rileyLinkDeviceProvider: rileyLinkDeviceProvider, rileyLinkConnectionManager: rileyLinkConnectionManager)
+        super.init(rileyLinkPumpManagerState: state.rileyLinkPumpManagerState, rileyLinkManager: rileyLinkManager)
 
         // Pump communication
         let idleListeningEnabled = state.pumpModel.hasMySentry
-        self.pumpOps = pumpOps ?? PumpOps(pumpSettings: state.pumpSettings, pumpState: state.pumpState, delegate: self)
+        self.pumpOps = PumpOps(pumpSettings: state.pumpSettings, pumpState: state.pumpState, delegate: self)
 
-        self.rileyLinkDeviceProvider.idleListeningState = idleListeningEnabled ? MinimedPumpManagerState.idleListeningEnabledDefaults : .disabled
+        self.rileyLinkManager.idleListeningState = idleListeningEnabled ? MinimedPumpManagerState.idleListeningEnabledDefaults : .disabled
     }
 
     public required convenience init?(rawState: PumpManager.RawStateValue) {
-        guard let state = MinimedPumpManagerState(rawValue: rawState),
-            let connectionManagerState = state.rileyLinkConnectionManagerState else
-        {
+        guard let state = MinimedPumpManagerState(rawValue: rawState) else {
             return nil
         }
-        
-        let rileyLinkConnectionManager = RileyLinkConnectionManager(state: connectionManagerState)
-        
-        self.init(state: state, rileyLinkDeviceProvider: rileyLinkConnectionManager.deviceProvider, rileyLinkConnectionManager: rileyLinkConnectionManager)
-        
-        rileyLinkConnectionManager.delegate = self
+
+        self.init(state: state, rileyLinkManager: nil)
     }
 
     public var rawState: PumpManager.RawStateValue {
         return state.rawValue
     }
 
+    override public var rileyLinkPumpManagerState: RileyLinkPumpManagerState {
+        didSet {
+            state.rileyLinkPumpManagerState = rileyLinkPumpManagerState
+        }
+    }
+
     // TODO: apply lock
     public private(set) var state: MinimedPumpManagerState {
         didSet {
             pumpManagerDelegate?.pumpManagerDidUpdateState(self)
-        }
-    }
-    
-    override public var rileyLinkConnectionManagerState: RileyLinkConnectionManagerState? {
-        get {
-            return state.rileyLinkConnectionManagerState
-        }
-        set {
-            state.rileyLinkConnectionManagerState = newValue
         }
     }
 
@@ -115,7 +106,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
             /// characteristic which can cause the app to wake. For most users, the G5 Transmitter and
             /// G4 Receiver are reliable as hearbeats, but users who find their resources extremely constrained
             /// due to greedy apps or older devices may choose to always enable the timer by always setting `true`
-            self.rileyLinkDeviceProvider.timerTickEnabled = self.isPumpDataStale || (self.pumpManagerDelegate?.pumpManagerShouldProvideBLEHeartbeat(self) == true)
+            self.rileyLinkManager.timerTickEnabled = self.isPumpDataStale || (self.pumpManagerDelegate?.pumpManagerShouldProvideBLEHeartbeat(self) == true)
         }
     }
 
@@ -197,23 +188,30 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
         // How long we should wait before we re-tune the RileyLink
         let tuneTolerance = TimeInterval(minutes: 14)
 
-        let lastTuned = state.lastTuned ?? .distantPast
+        let deviceState = deviceStates[device.peripheralIdentifier, default: DeviceState()]
+        let lastTuned = deviceState.lastTuned ?? .distantPast
 
         if lastTuned.timeIntervalSinceNow <= -tuneTolerance {
             pumpOps.runSession(withName: "Tune pump", using: device) { (session) in
                 do {
-                    let scanResult = try session.tuneRadio()
+                    let scanResult = try session.tuneRadio(current: deviceState.lastValidFrequency)
                     self.log.error("Device %{public}@ auto-tuned to %{public}@ MHz", device.name ?? "", String(describing: scanResult.bestFrequency))
+                    self.queue.async {
+                        self.deviceStates[device.peripheralIdentifier] = DeviceState(
+                            lastTuned: Date(),
+                            lastValidFrequency: scanResult.bestFrequency
+                        )
+                    }
                 } catch let error {
                     self.log.error("Device %{public}@ auto-tune failed with error: %{public}@", device.name ?? "", String(describing: error))
-                    self.rileyLinkDeviceProvider.deprioritize(device, completion: nil)
+                    self.rileyLinkManager.deprioritize(device)
                     if let error = error as? LocalizedError {
                         self.pumpManagerDelegate?.pumpManager(self, didError: PumpManagerError.communication(MinimedPumpManagerError.tuneFailed(error)))
                     }
                 }
             }
         } else {
-            rileyLinkDeviceProvider.deprioritize(device, completion: nil)
+            rileyLinkManager.deprioritize(device)
         }
     }
 
@@ -255,13 +253,14 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
         device.getStatus { (deviceStatus) in
             // Trigger device status upload, even if something is wrong with pumpStatus
             self.queue.async {
+                let deviceState = self.deviceStates[device.peripheralIdentifier]
 
                 let pumpManagerStatus = PumpManagerStatus(
                     date: pumpDate,
                     timeZone: timeZone,
                     device: deviceStatus.device(pumpID: self.state.pumpID, pumpModel: self.state.pumpModel),
-                    lastValidFrequency: self.state.lastValidFrequency,
-                    lastTuned: self.state.lastTuned,
+                    lastValidFrequency: deviceState?.lastValidFrequency,
+                    lastTuned: deviceState?.lastTuned,
                     battery: PumpManagerStatus.BatteryStatus(percent: Double(status.batteryRemainingPercent) / 100),
                     isSuspended: nil,
                     isBolusing: nil,
@@ -344,7 +343,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
     ///   - completion: A closure called once upon completion
     ///   - error: An error describing why the fetch and/or store failed
     private func fetchPumpHistory(_ completion: @escaping (_ error: Error?) -> Void) {
-        rileyLinkDeviceProvider.getDevices { (devices) in
+        rileyLinkManager.getDevices { (devices) in
             guard let device = devices.firstConnected else {
                 completion(PumpManagerError.connection(MinimedPumpManagerError.noRileyLink))
                 return
@@ -377,7 +376,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
     /// TODO: Isolate to queue
     private var isPumpDataStale: Bool {
         // How long should we wait before we poll for new pump data?
-        let pumpStatusAgeTolerance = rileyLinkDeviceProvider.idleListeningEnabled ? TimeInterval(minutes: 6) : TimeInterval(minutes: 4)
+        let pumpStatusAgeTolerance = rileyLinkManager.idleListeningEnabled ? TimeInterval(minutes: 6) : TimeInterval(minutes: 4)
 
         return isReservoirDataOlderThan(timeIntervalSinceNow: -pumpStatusAgeTolerance)
     }
@@ -401,7 +400,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
      */
     /// TODO: Isolate to queue
     public func assertCurrentPumpData() {
-        rileyLinkDeviceProvider.assertIdleListening(forcingRestart: true)
+        rileyLinkManager.assertIdleListening(forcingRestart: true)
 
         guard isPumpDataStale else {
             return
@@ -409,7 +408,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
 
         self.log.debug("Pump data is stale, fetching.")
 
-        rileyLinkDeviceProvider.getDevices { (devices) in
+        rileyLinkManager.getDevices { (devices) in
             guard let device = devices.firstConnected else {
                 let error = PumpManagerError.connection(MinimedPumpManagerError.noRileyLink)
                 self.log.error("No devices found while fetching pump data")
@@ -446,12 +445,13 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
 
                     device.getStatus { (deviceStatus) in
                         self.queue.async {
+                            let deviceState = self.deviceStates[device.peripheralIdentifier]
                             let pumpManagerStatus = PumpManagerStatus(
                                 date: date,
                                 timeZone: session.pump.timeZone,
                                 device: deviceStatus.device(pumpID: self.state.pumpID, pumpModel: self.state.pumpModel),
-                                lastValidFrequency: self.state.lastValidFrequency,
-                                lastTuned: self.state.lastTuned,
+                                lastValidFrequency: deviceState?.lastValidFrequency,
+                                lastTuned: deviceState?.lastTuned,
                                 battery: PumpManagerStatus.BatteryStatus(
                                     voltage: status.batteryVolts,
                                     state: {
@@ -492,7 +492,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
         // If we don't have recent pump data, or the pump was recently rewound, read new pump data before bolusing.
         let shouldReadReservoir = isReservoirDataOlderThan(timeIntervalSinceNow: .minutes(-6))
 
-        pumpOps.runSession(withName: "Bolus", using: rileyLinkDeviceProvider.firstConnectedDevice) { (session) in
+        pumpOps.runSession(withName: "Bolus", using: rileyLinkManager.firstConnectedDevice) { (session) in
             guard let session = session else {
                 completion(PumpManagerError.connection(MinimedPumpManagerError.noRileyLink))
                 return
@@ -536,7 +536,7 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
     }
 
     public func enactTempBasal(unitsPerHour: Double, for duration: TimeInterval, completion: @escaping (PumpManagerResult<DoseEntry>) -> Void) {
-        pumpOps.runSession(withName: "Set Temp Basal", using: rileyLinkDeviceProvider.firstConnectedDevice) { (session) in
+        pumpOps.runSession(withName: "Set Temp Basal", using: rileyLinkManager.firstConnectedDevice) { (session) in
             guard let session = session else {
                 completion(.failure(PumpManagerError.connection(MinimedPumpManagerError.noRileyLink)))
                 return
@@ -589,14 +589,13 @@ public class MinimedPumpManager: RileyLinkPumpManager, PumpManager {
     // MARK: - Configuration
 
     // MARK: Pump
-    
+
     // TODO
-    public func getOpsForDevice(_ device: RileyLinkDevice, completion: @escaping (_ pumpOps: PumpOps) -> Void) {
+    public func getStateForDevice(_ device: RileyLinkDevice, completion: @escaping (_ deviceState: DeviceState, _ pumpOps: PumpOps) -> Void) {
         queue.async {
-            completion(self.pumpOps)
+            completion(self.deviceStates[device.peripheralIdentifier, default: DeviceState()], self.pumpOps)
         }
     }
-
 
     public private(set) var pumpOps: PumpOps!
 
@@ -647,7 +646,7 @@ extension MinimedPumpManager: CGMManager {
     }
 
     public func fetchNewDataIfNeeded(_ completion: @escaping (CGMResult) -> Void) {
-        rileyLinkDeviceProvider.getDevices { (devices) in
+        rileyLinkManager.getDevices { (devices) in
             guard let device = devices.firstConnected else {
                 completion(.error(PumpManagerError.connection(MinimedPumpManagerError.noRileyLink)))
                 return
@@ -686,4 +685,3 @@ extension MinimedPumpManager: CGMManager {
         }
     }
 }
-

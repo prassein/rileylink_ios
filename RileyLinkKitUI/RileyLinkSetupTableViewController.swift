@@ -9,11 +9,11 @@ import UIKit
 import LoopKit
 import LoopKitUI
 import RileyLinkKit
-import RileyLinkBLEKit
+
 
 public class RileyLinkSetupTableViewController: SetupTableViewController {
 
-    let rileyLinkPumpManager: RileyLinkPumpManager
+    let rileyLinkPumpManager = RileyLinkPumpManager(rileyLinkPumpManagerState: RileyLinkPumpManagerState(connectedPeripheralIDs: []))
 
     private lazy var devicesDataSource: RileyLinkDevicesTableViewDataSource = {
         return RileyLinkDevicesTableViewDataSource(
@@ -21,16 +21,6 @@ public class RileyLinkSetupTableViewController: SetupTableViewController {
             devicesSectionIndex: Section.devices.rawValue
         )
     }()
-    
-    public required init?(coder aDecoder: NSCoder) {
-        let rileyLinkConnectionManager = RileyLinkConnectionManager(autoConnectIDs: [])        
-        rileyLinkPumpManager = RileyLinkPumpManager(rileyLinkDeviceProvider: rileyLinkConnectionManager.deviceProvider, rileyLinkConnectionManager: rileyLinkConnectionManager)
-        
-        rileyLinkConnectionManager.delegate = rileyLinkPumpManager
-        
-        super.init(coder: aDecoder)
-    }
-
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,11 +130,7 @@ public class RileyLinkSetupTableViewController: SetupTableViewController {
     // MARK: - Navigation
 
     private var shouldContinue: Bool {
-        guard let connectionManager = rileyLinkPumpManager.rileyLinkConnectionManager else {
-            return false
-        }
-        
-        return connectionManager.connectingCount > 0
+        return devicesDataSource.rileyLinkPumpManager.rileyLinkPumpManagerState.connectedPeripheralIDs.count > 0
     }
 
     @objc private func deviceConnectionStateDidChange() {

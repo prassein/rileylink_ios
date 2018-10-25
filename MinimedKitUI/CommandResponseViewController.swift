@@ -38,9 +38,9 @@ extension CommandResponseViewController {
         }
     }
 
-    static func changeTime(ops: PumpOps?, rileyLinkDeviceProvider: RileyLinkDeviceProvider) -> T {
+    static func changeTime(ops: PumpOps?, rileyLinkManager: RileyLinkDeviceManager) -> T {
         return T { (completionHandler) -> String in
-            ops?.runSession(withName: "Set time", using: rileyLinkDeviceProvider.firstConnectedDevice) { (session) in
+            ops?.runSession(withName: "Set time", using: rileyLinkManager.firstConnectedDevice) { (session) in
                 let response: String
                 do {
                     guard let session = session else {
@@ -297,12 +297,23 @@ extension CommandResponseViewController {
         }
     }
 
-    static func tuneRadio(ops: PumpOps?, device: RileyLinkDevice, measurementFormatter: MeasurementFormatter) -> T {
+    static func tuneRadio(ops: PumpOps?, device: RileyLinkDevice, current: Measurement<UnitFrequency>?, measurementFormatter: MeasurementFormatter) -> T {
         return T { (completionHandler) -> String in
             ops?.runSession(withName: "Tune pump", using: device) { (session) in
                 let response: String
                 do {
-                    let scanResult = try session.tuneRadio()
+                    let scanResult = try session.tuneRadio(current: nil)
+
+                    NotificationCenter.default.post(
+                        name: .DeviceStateDidChange,
+                        object: device,
+                        userInfo: [
+                            RileyLinkDevice.notificationDeviceStateKey: DeviceState(
+                                lastTuned: Date(),
+                                lastValidFrequency: scanResult.bestFrequency
+                            )
+                        ]
+                    )
 
                     var resultDict: [String: Any] = [:]
 
