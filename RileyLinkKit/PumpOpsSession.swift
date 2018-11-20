@@ -13,7 +13,6 @@ import RileyLinkBLEKit
 
 protocol PumpOpsSessionDelegate: class {
     func pumpOpsSession(_ session: PumpOpsSession, didChange state: PumpState)
-    func pumpOpsSessionDidChangeRadioConfig(_ session: PumpOpsSession)
 }
 
 
@@ -28,7 +27,7 @@ public class PumpOpsSession {
     private let session: PumpMessageSender
 
     private unowned let delegate: PumpOpsSessionDelegate
-    
+
     internal init(settings: PumpSettings, pumpState: PumpState, session: PumpMessageSender, delegate: PumpOpsSessionDelegate) {
         self.settings = settings
         self.pump = pumpState
@@ -57,7 +56,7 @@ extension PumpOpsSession {
     private func sendWakeUpBurst() throws {
         // Skip waking up if we recently tried
         guard pump.lastWakeAttempt == nil || pump.lastWakeAttempt!.timeIntervalSinceNow <= -PumpOpsSession.minimumTimeBetweenWakeAttempts
-        else {
+                else {
             return
         }
 
@@ -189,19 +188,7 @@ extension PumpOpsSession {
     ///     - PumpOpsError.unknownResponse
     internal func getPumpStatus() throws -> ReadPumpStatusMessageBody {
         try wakeup()
-//        return try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
-        return try readPumpStatusMessageBody()
-    }
-
-    private func readPumpStatusMessageBody() throws -> ReadPumpStatusMessageBody {
-        var statusResp: ReadPumpStatusMessageBody? = try? session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus712)
-
-        if statusResp == nil {
-//            statusResp = try messageBody(to: .readPumpStatus712)
-            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
-        }
-
-        return statusResp!;
+        return try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
     }
 
     /// - Throws:
@@ -345,8 +332,8 @@ extension PumpOpsSession {
         let reservoir: ReadRemainingInsulinMessageBody = try session.getResponse(to: PumpMessage(settings: settings, type: .readRemainingInsulin), responseType: .readRemainingInsulin)
 
         return (
-            units: reservoir.getUnitsRemainingForStrokes(pumpModel.strokesPerUnit),
-            clock: pumpClock
+                units: reservoir.getUnitsRemainingForStrokes(pumpModel.strokesPerUnit),
+                clock: pumpClock
         )
     }
 
@@ -366,14 +353,14 @@ extension PumpOpsSession {
         let (reservoir, clock) = try getRemainingInsulin()
 
         return PumpStatus(
-            clock: clock,
-            batteryVolts: Measurement(value: battResp.volts, unit: UnitElectricPotentialDifference.volts),
-            batteryStatus: battResp.status,
-            suspended: status.suspended,
-            bolusing: status.bolusing,
-            reservoir: reservoir,
-            model: pumpModel,
-            pumpID: settings.pumpID
+                clock: clock,
+                batteryVolts: Measurement(value: battResp.volts, unit: UnitElectricPotentialDifference.volts),
+                batteryStatus: battResp.status,
+                suspended: status.suspended,
+                bolusing: status.bolusing,
+                reservoir: reservoir,
+                model: pumpModel,
+                pumpID: settings.pumpID
         )
     }
 }
@@ -444,7 +431,7 @@ extension PumpOpsSession {
     /// - Throws: PumpCommandError
     public func setTempBasal(_ unitsPerHour: Double, duration: TimeInterval) throws -> ReadTempBasalCarelinkMessageBody {
         var lastError: Error?
-        
+
         let message = PumpMessage(settings: settings, type: .changeTempBasal, body: ChangeTempBasalCarelinkMessageBody(unitsPerHour: unitsPerHour, duration: duration))
 
         for attempt in 1..<4 {
@@ -656,7 +643,7 @@ extension PumpOpsSession {
             }
         }
     }
-    
+
     public func getStatistics() throws -> RileyLinkStatistics {
         return try session.getRileyLinkStatistics()
     }
@@ -695,7 +682,7 @@ extension PumpOpsSession {
                 messages.append(contentsOf: [
                     "Unknown response:",
                     response.hexadecimalString,
-                    ])
+                ])
             } catch let error {
                 messages.append(contentsOf: [
                     String(describing: error),
@@ -724,6 +711,15 @@ extension PumpOpsSession {
     ///     - PumpOpsError.unexpectedResponse
     ///     - PumpOpsError.unknownResponse
     public func changeWatchdogMarriageProfile(_ watchdogID: Data) throws {
+        try setRXFilterMode(.wide)
+        defer {
+            do {
+                try configureRadio(for: settings.pumpRegion)
+            } catch {
+                // Best effort resetting radio filter mode
+            }
+        }
+
         let commandTimeout = TimeInterval(seconds: 30)
 
         // Wait for the pump to start polling
@@ -734,15 +730,15 @@ extension PumpOpsSession {
         guard let packet = MinimedPacket(encodedData: encodedData) else {
             throw PumpOpsError.couldNotDecode(rx: encodedData, during: "Watchdog listening")
         }
-        
+
         guard let findMessage = PumpMessage(rxData: packet.data) else {
             // Unknown packet type or message type
             throw PumpOpsError.unknownResponse(rx: packet.data, during: "Watchdog listening")
         }
 
         guard findMessage.address.hexadecimalString == settings.pumpID && findMessage.packetType == .mySentry,
-            let findMessageBody = findMessage.messageBody as? FindDeviceMessageBody, let findMessageResponseBody = MySentryAckMessageBody(sequence: findMessageBody.sequence, watchdogID: watchdogID, responseMessageTypes: [findMessage.messageType])
-        else {
+              let findMessageBody = findMessage.messageBody as? FindDeviceMessageBody, let findMessageResponseBody = MySentryAckMessageBody(sequence: findMessageBody.sequence, watchdogID: watchdogID, responseMessageTypes: [findMessage.messageType])
+                else {
             throw PumpOpsError.unknownResponse(rx: packet.data, during: "Watchdog listening")
         }
 
@@ -752,9 +748,9 @@ extension PumpOpsSession {
         let linkMessage = try session.sendAndListen(findMessageResponse, timeout: commandTimeout)
 
         guard let
-            linkMessageBody = linkMessage.messageBody as? DeviceLinkMessageBody,
-            let linkMessageResponseBody = MySentryAckMessageBody(sequence: linkMessageBody.sequence, watchdogID: watchdogID, responseMessageTypes: [linkMessage.messageType])
-        else {
+              linkMessageBody = linkMessage.messageBody as? DeviceLinkMessageBody,
+              let linkMessageResponseBody = MySentryAckMessageBody(sequence: linkMessageBody.sequence, watchdogID: watchdogID, responseMessageTypes: [linkMessage.messageType])
+                else {
             throw PumpOpsError.unexpectedResponse(linkMessage, from: findMessageResponse)
         }
 
@@ -810,16 +806,11 @@ extension PumpOpsSession {
     ///     - PumpOpsError.deviceError
     ///     - PumpOpsError.noResponse
     ///     - PumpOpsError.rfCommsFailure
-    public func tuneRadio() throws -> FrequencyScanResults {
+    public func tuneRadio(current: Measurement<UnitFrequency>?) throws -> FrequencyScanResults {
         let region = self.settings.pumpRegion
 
         do {
-            let results = try scanForPump(in: region.scanFrequencies, fallback: pump.lastValidFrequency)
-            
-            pump.lastValidFrequency = results.bestFrequency
-            pump.lastTuned = Date()
-            
-            delegate.pumpOpsSessionDidChangeRadioConfig(self)
+            let results = try scanForPump(in: region.scanFrequencies, current: current)
 
             return results
         } catch let error as PumpOpsError {
@@ -852,9 +843,9 @@ extension PumpOpsSession {
     /// - Throws:
     ///     - PumpOpsError.deviceError
     ///     - RileyLinkDeviceError
-    func configureRadio(for region: PumpRegion, frequency: Measurement<UnitFrequency>?) throws {
+    func configureRadio(for region: PumpRegion) throws {
         try session.resetRadioConfig()
-        
+
         switch region {
         case .worldWide:
             //try session.updateRegister(.mdmcfg4, value: 0x59)
@@ -873,10 +864,6 @@ extension PumpOpsSession {
             try session.updateRegister(.mdmcfg0, value: 0x7E)
             try session.updateRegister(.deviatn, value: 0x15)
         }
-        
-        if let frequency = frequency {
-            try session.setBaseFrequency(frequency)
-        }
     }
 
     /// - Throws:
@@ -884,12 +871,12 @@ extension PumpOpsSession {
     ///     - PumpOpsError.noResponse
     ///     - PumpOpsError.rfCommsFailure
     ///     - LocalizedError
-    private func scanForPump(in frequencies: [Measurement<UnitFrequency>], fallback: Measurement<UnitFrequency>?) throws -> FrequencyScanResults {
-        
+    private func scanForPump(in frequencies: [Measurement<UnitFrequency>], current: Measurement<UnitFrequency>?) throws -> FrequencyScanResults {
+
         var trials = [FrequencyTrial]()
-        
+
         let middleFreq = frequencies[frequencies.count / 2]
-        
+
         do {
             // Needed to put the pump in listen mode
             try session.setBaseFrequency(middleFreq)
@@ -897,7 +884,7 @@ extension PumpOpsSession {
         } catch {
             // Continue anyway; the pump likely heard us, even if we didn't hear it.
         }
-        
+
         for freq in frequencies {
             let tries = 3
             var trial = FrequencyTrial(frequency: freq)
@@ -926,15 +913,15 @@ extension PumpOpsSession {
         })
 
         guard sortedTrials.first!.successes > 0 else {
-            try session.setBaseFrequency(fallback ?? middleFreq)
+            try session.setBaseFrequency(current ?? middleFreq)
             throw PumpOpsError.rfCommsFailure("No pump responses during scan")
         }
 
         let results = FrequencyScanResults(
-            trials: trials,
-            bestFrequency: sortedTrials.first!.frequency
+                trials: trials,
+                bestFrequency: sortedTrials.first!.frequency
         )
-        
+
         try session.setBaseFrequency(results.bestFrequency)
 
         return results
@@ -966,9 +953,9 @@ extension PumpOpsSession {
         try wakeup()
 
         let pumpModel = try getPumpModel()
-        
+
         var events = [TimestampedHistoryEvent]()
-        
+
         pages: for pageNum in 0..<16 {
             // TODO: Convert logging
             NSLog("Fetching page %d", pageNum)
@@ -976,13 +963,10 @@ extension PumpOpsSession {
 
             do {
                 pageData = try getHistoryPage(pageNum)
-            } catch PumpCommandError.arguments(let error) {
-                if case PumpOpsError.pumpError(.pageDoesNotExist) = error {
-                    return (events, pumpModel)
-                }
-                throw PumpCommandError.arguments(error)
+            } catch PumpOpsError.pumpError {
+                break pages
             }
-            
+
             var idx = 0
             let chunkSize = 256
             while idx < pageData.count {
@@ -994,27 +978,27 @@ extension PumpOpsSession {
             }
 
             let page = try HistoryPage(pageData: pageData, pumpModel: pumpModel)
-            
+
             let (timestampedEvents, hasMoreEvents, _) = page.timestampedEvents(after: startDate, timeZone: pump.timeZone, model: pumpModel)
 
             events = timestampedEvents + events
-            
+
             if !hasMoreEvents {
                 break
             }
         }
         return (events, pumpModel)
     }
-    
+
     private func getHistoryPage(_ pageNum: Int) throws -> Data {
         var frameData = Data()
-        
+
         let msg = PumpMessage(settings: settings, type: .getHistoryPage, body: GetHistoryPageCarelinkMessageBody(pageNum: pageNum))
-        
+
         var curResp: GetHistoryPageCarelinkMessageBody = try runCommandWithArguments(msg, responseType: .getHistoryPage)
 
         var expectedFrameNum = 1
-        
+
         while(expectedFrameNum == curResp.frameNumber) {
             frameData.append(curResp.frame)
             expectedFrameNum += 1
@@ -1026,7 +1010,7 @@ extension PumpOpsSession {
                 break
             }
         }
-        
+
         guard frameData.count == 1024 else {
             throw PumpOpsError.rfCommsFailure("Short history page: \(frameData.count) bytes. Expected 1024")
         }
@@ -1048,7 +1032,7 @@ extension PumpOpsSession {
             idx = top
         }
     }
-    
+
     /// Fetches glucose history entries which occurred on or after the specified date.
     ///
     /// History timestamps are reconciled with UTC based on the `timeZone` property of PumpState, as well as recorded clock change events.
@@ -1058,30 +1042,30 @@ extension PumpOpsSession {
     /// - Throws: 
     public func getGlucoseHistoryEvents(since startDate: Date) throws -> [TimestampedGlucoseEvent] {
         try wakeup()
-        
+
         var events = [TimestampedGlucoseEvent]()
-        
+
         let currentGlucosePage: ReadCurrentGlucosePageMessageBody = try session.getResponse(to: PumpMessage(settings: settings, type: .readCurrentGlucosePage), responseType: .readCurrentGlucosePage)
         let startPage = Int(currentGlucosePage.pageNum)
         //max lookback of 15 pages or when page is 0
         let endPage = max(startPage - 15, 0)
-        
+
         pages: for pageNum in stride(from: startPage, to: endPage - 1, by: -1) {
             // TODO: Convert logging
             NSLog("Fetching page %d", pageNum)
             var pageData: Data
             var page: GlucosePage
-            
+
             do {
                 pageData = try getGlucosePage(UInt32(pageNum))
                 // logGlucoseHistory(pageData: pageData, pageNum: pageNum)
                 page = try GlucosePage(pageData: pageData)
-                
+
                 if page.needsTimestamp && pageNum == startPage {
                     // TODO: Convert logging
                     NSLog(String(format: "GlucosePage %02d needs a new sensor timestamp, writing...", pageNum))
                     let _ = try writeGlucoseHistoryTimestamp()
-                    
+
                     //fetch page again with new sensor timestamp
                     pageData = try getGlucosePage(UInt32(pageNum))
                     logGlucoseHistory(pageData: pageData, pageNum: pageNum)
@@ -1090,15 +1074,15 @@ extension PumpOpsSession {
             } catch PumpOpsError.pumpError {
                 break pages
             }
-            
+
             for event in page.events.reversed() {
                 var timestamp = event.timestamp
                 timestamp.timeZone = pump.timeZone
-                
+
                 if event is UnknownGlucoseEvent {
                     continue pages
                 }
-                
+
                 if let date = timestamp.date {
                     if date < startDate && event is SensorTimestampGlucoseEvent {
                         // TODO: Convert logging
@@ -1115,13 +1099,13 @@ extension PumpOpsSession {
 
     private func getGlucosePage(_ pageNum: UInt32) throws -> Data {
         var frameData = Data()
-        
+
         let msg = PumpMessage(settings: settings, type: .getGlucosePage, body: GetGlucosePageMessageBody(pageNum: pageNum))
 
         var curResp: GetGlucosePageMessageBody = try runCommandWithArguments(msg, responseType: .getGlucosePage)
-        
+
         var expectedFrameNum = 1
-        
+
         while(expectedFrameNum == curResp.frameNumber) {
             frameData.append(curResp.frame)
             expectedFrameNum += 1
@@ -1133,13 +1117,13 @@ extension PumpOpsSession {
                 break
             }
         }
-        
+
         guard frameData.count == 1024 else {
             throw PumpOpsError.rfCommsFailure("Short glucose history page: \(frameData.count) bytes. Expected 1024")
         }
         return frameData
     }
-    
+
     public func writeGlucoseHistoryTimestamp() throws -> Void {
         try wakeup()
 
