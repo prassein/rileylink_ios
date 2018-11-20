@@ -188,7 +188,17 @@ extension PumpOpsSession {
     ///     - PumpOpsError.unknownResponse
     internal func getPumpStatus() throws -> ReadPumpStatusMessageBody {
         try wakeup()
-        return try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
+        return try readPumpStatusMessageBody()
+    }
+
+    private func readPumpStatusMessageBody() throws -> ReadPumpStatusMessageBody {
+        var statusResp: ReadPumpStatusMessageBody? = try? session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus712), responseType: .readPumpStatus712)
+
+        if statusResp == nil {
+            statusResp = try session.getResponse(to: PumpMessage(settings: settings, type: .readPumpStatus), responseType: .readPumpStatus)
+        }
+
+        return statusResp!;
     }
 
     /// - Throws:
@@ -1039,7 +1049,7 @@ extension PumpOpsSession {
     ///
     /// - Parameter startDate: The earliest date of events to retrieve
     /// - Returns: An array of fetched history entries, in ascending order of insertion
-    /// - Throws: 
+    /// - Throws:
     public func getGlucoseHistoryEvents(since startDate: Date) throws -> [TimestampedGlucoseEvent] {
         try wakeup()
 
