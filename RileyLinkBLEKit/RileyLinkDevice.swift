@@ -16,10 +16,10 @@ public class RileyLinkDevice {
     private let log = OSLog(category: "RileyLinkDevice")
 
     // Confined to `manager.queue`
-    private(set) var bleFirmwareVersion: BLEFirmwareVersion?
+    private var bleFirmwareVersion: BLEFirmwareVersion?
 
     // Confined to `manager.queue`
-    private(set) var radioFirmwareVersion: RadioFirmwareVersion?
+    private var radioFirmwareVersion: RadioFirmwareVersion?
 
     // Confined to `queue`
     private var idleListeningState: IdleListeningState = .disabled {
@@ -66,9 +66,10 @@ public class RileyLinkDevice {
 
         peripheralManager.delegate = self
 
-        sessionQueueOperationCountObserver = sessionQueue.observe(\.operationCount) { [unowned self] (queue, change) in
+        sessionQueueOperationCountObserver = sessionQueue.observe(\.operationCount, options: [.new]) { [weak self] (queue, change) in
             if let newValue = change.newValue, newValue == 0 {
-                self.assertIdleListening(forceRestart: true)
+                self?.log.debug("Session queue operation count is now empty")
+                self?.assertIdleListening(forceRestart: true)
             }
         }
     }
@@ -94,7 +95,7 @@ extension RileyLinkDevice {
     }
 
     public func readRSSI() {
-        guard case .connected = manager.peripheral.state, case .poweredOn = manager.central.state else {
+        guard case .connected = manager.peripheral.state, case .poweredOn? = manager.central?.state else {
             return
         }
         manager.peripheral.readRSSI()
@@ -102,6 +103,21 @@ extension RileyLinkDevice {
 
     public func setCustomName(_ name: String) {
         manager.setCustomName(name)
+    }
+    
+    public func enableBLELEDs() {
+        manager.setLEDMode(mode: .on)
+    }
+}
+
+
+extension RileyLinkDevice: Equatable, Hashable {
+    public static func ==(lhs: RileyLinkDevice, rhs: RileyLinkDevice) -> Bool {
+        return lhs === rhs
+    }
+
+    public var hashValue: Int {
+        return peripheralIdentifier.hashValue
     }
 }
 
@@ -139,9 +155,16 @@ extension RileyLinkDevice {
 extension RileyLinkDevice {
     public func runSession(withName name: String, _ block: @escaping (_ session: CommandSession) -> Void) {
         sessionQueue.addOperation(manager.configureAndRun({ [weak self] (manager) in
-            self?.log.debug("======================== %{public}@ ===========================", name)
-            block(CommandSession(manager: manager, responseType: self?.bleFirmwareVersion?.responseType ?? .buffered))
-            self?.log.debug("------------------------ %{public}@ ---------------------------", name)
+            self?.log.default("======================== %{public}@ ===========================", name)
+            let bleFirmwareVersion = self?.bleFirmwareVersion
+            let radioFirmwareVersion = self?.radioFirmwareVersion
+
+            if bleFirmwareVersion == nil || radioFirmwareVersion == nil {
+                self?.log.error("Running session with incomplete configuration: bleFirmwareVersion %{public}@, radioFirmwareVersion: %{public}@", String(describing: bleFirmwareVersion), String(describing: radioFirmwareVersion))
+            }
+
+            block(CommandSession(manager: manager, responseType: bleFirmwareVersion?.responseType ?? .buffered, firmwareVersion: radioFirmwareVersion ?? .unknown))
+            self?.log.default("------------------------ %{public}@ ---------------------------", name)
         }))
     }
 }
@@ -166,7 +189,7 @@ extension RileyLinkDevice {
                 return
             }
 
-            guard case .connected = self.manager.peripheral.state, case .poweredOn = self.manager.central.state else {
+            guard case .connected = self.manager.peripheral.state, case .poweredOn? = self.manager.central?.state else {
                 return
             }
 
@@ -228,6 +251,7 @@ extension RileyLinkDevice {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        log.debug("didConnect %@", peripheral)
         if case .connected = peripheral.state {
             assertIdleListening(forceRestart: false)
             assertTimerTick()
@@ -239,10 +263,12 @@ extension RileyLinkDevice {
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        log.debug("didDisconnectPeripheral %@", peripheral)
         NotificationCenter.default.post(name: .DeviceConnectionStateDidChange, object: self)
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        log.debug("didFailToConnect %@", peripheral)
         NotificationCenter.default.post(name: .DeviceConnectionStateDidChange, object: self)
     }
 }
@@ -251,18 +277,49 @@ extension RileyLinkDevice {
 extension RileyLinkDevice: PeripheralManagerDelegate {
     // This is called from the central's queue
     func peripheralManager(_ manager: PeripheralManager, didUpdateValueFor characteristic: CBCharacteristic) {
+        log.debug("Did UpdateValueFor %@", characteristic)
         switch MainServiceCharacteristicUUID(rawValue: characteristic.uuid.uuidString) {
         case .data?:
-            if let response = characteristic.value, response.count > 0 {
-                if let packet = RFPacket(rfspyResponse: response) {
-                    self.log.debug("Idle packet received: %@", response.hexadecimalString)
-                    NotificationCenter.default.post(name: .DevicePacketReceived, object: self, userInfo: [RileyLinkDevice.notificationPacketKey: packet])
-                } else if let error = RileyLinkResponseError(rawValue: response[0]) {
-                    self.log.debug("Idle error received: %@", String(describing: error))
-                }
+            guard let value = characteristic.value, value.count > 0 else {
+                return
             }
 
-            assertIdleListening(forceRestart: true)
+            self.manager.queue.async {
+                if let responseType = self.bleFirmwareVersion?.responseType {
+                    let response: PacketResponse?
+
+                    switch responseType {
+                    case .buffered:
+                        var buffer =  ResponseBuffer<PacketResponse>(endMarker: 0x00)
+                        buffer.append(value)
+                        response = buffer.responses.last
+                    case .single:
+                        response = PacketResponse(data: value)
+                    }
+
+                    if let response = response {
+                        switch response.code {
+                        case .rxTimeout, .commandInterrupted, .zeroData, .invalidParam, .unknownCommand:
+                            self.log.debug("Idle error received: %@", String(describing: response.code))
+                        case .success:
+                            if let packet = response.packet {
+                                self.log.debug("Idle packet received: %@", String(describing: value))
+                                NotificationCenter.default.post(
+                                    name: .DevicePacketReceived,
+                                    object: self,
+                                    userInfo: [RileyLinkDevice.notificationPacketKey: packet]
+                                )
+                            }
+                        }
+                    } else {
+                        self.log.error("Unknown idle response: %@", value.hexadecimalString)
+                    }
+                } else {
+                    self.log.error("Skipping parsing characteristic value update due to missing BLE firmware version")
+                }
+
+                self.assertIdleListening(forceRestart: true)
+            }
         case .responseCount?:
             // PeripheralManager.Configuration.valueUpdateMacros is responsible for handling this response.
             break
@@ -270,7 +327,7 @@ extension RileyLinkDevice: PeripheralManagerDelegate {
             NotificationCenter.default.post(name: .DeviceTimerDidTick, object: self)
 
             assertIdleListening(forceRestart: false)
-        case .customName?, .firmwareVersion?, .none:
+        case .customName?, .firmwareVersion?, .ledMode?, .none:
             break
         }
     }
@@ -293,6 +350,7 @@ extension RileyLinkDevice: PeripheralManagerDelegate {
 
     func completeConfiguration(for manager: PeripheralManager) throws {
         // Read bluetooth version to determine compatibility
+        log.default("Reading firmware versions for PeripheralManager configuration")
         let bleVersionString = try manager.readBluetoothFirmwareVersion(timeout: 1)
         bleFirmwareVersion = BLEFirmwareVersion(versionString: bleVersionString)
 
@@ -313,7 +371,7 @@ extension RileyLinkDevice: CustomDebugStringConvertible {
             "isTimerTickNotifying: \(manager.timerTickEnabled)",
             "radioFirmware: \(String(describing: radioFirmwareVersion))",
             "bleFirmware: \(String(describing: bleFirmwareVersion))",
-            "peripheral: \(manager.peripheral)",
+            "peripheralManager: \(String(reflecting: manager))",
             "sessionQueue.operationCount: \(sessionQueue.operationCount)"
         ].joined(separator: "\n")
     }

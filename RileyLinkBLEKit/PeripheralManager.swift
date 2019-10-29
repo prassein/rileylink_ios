@@ -27,7 +27,7 @@ class PeripheralManager: NSObject {
             oldValue.delegate = nil
             peripheral.delegate = self
 
-            queue.async {
+            queue.sync {
                 self.needsConfiguration = true
             }
         }
@@ -45,15 +45,22 @@ class PeripheralManager: NSObject {
     /// Any error surfaced during the active operation
     private var commandError: Error?
 
-    unowned let central: CBCentralManager
+    private(set) weak var central: CBCentralManager?
     
     let configuration: Configuration
 
     // Confined to `queue`
     private var needsConfiguration = true
 
-    weak var delegate: PeripheralManagerDelegate?
+    weak var delegate: PeripheralManagerDelegate? {
+        didSet {
+            queue.sync {
+                needsConfiguration = true
+            }
+        }
+    }
 
+    // Called from RileyLinkDeviceManager.managerQueue
     init(peripheral: CBPeripheral, configuration: Configuration, centralManager: CBCentralManager) {
         self.peripheral = peripheral
         self.central = centralManager
@@ -99,7 +106,8 @@ protocol PeripheralManagerDelegate: class {
 // MARK: - Operation sequence management
 extension PeripheralManager {
     func configureAndRun(_ block: @escaping (_ manager: PeripheralManager) -> Void) -> (() -> Void) {
-        return { [unowned self] in
+        return {
+            // TODO: Accessing self might be a race on initialization
             if !self.needsConfiguration && self.peripheral.services == nil {
                 self.log.error("Configured peripheral has no services. Reconfiguring…")
             }
@@ -107,10 +115,22 @@ extension PeripheralManager {
             if self.needsConfiguration || self.peripheral.services == nil {
                 do {
                     try self.applyConfiguration()
-                    try self.delegate?.completeConfiguration(for: self)
-                    self.needsConfiguration = false
+                    self.log.default("Peripheral configuration completed")
                 } catch let error {
-                    self.log.debug("Error applying configuration: %@", String(describing: error))
+                    self.log.error("Error applying peripheral configuration: %@", String(describing: error))
+                    // Will retry
+                }
+
+                do {
+                    if let delegate = self.delegate {
+                        try delegate.completeConfiguration(for: self)
+                        self.log.default("Delegate configuration completed")
+                        self.needsConfiguration = false
+                    } else {
+                        self.log.error("No delegate set for configuration")
+                    }
+                } catch let error {
+                    self.log.error("Error applying delegate configuration: %@", String(describing: error))
                     // Will retry
                 }
             }
@@ -168,7 +188,7 @@ extension PeripheralManager {
     func runCommand(timeout: TimeInterval, command: () -> Void) throws {
         // Prelude
         dispatchPrecondition(condition: .onQueue(queue))
-        guard central.state == .poweredOn && peripheral.state == .connected else {
+        guard central?.state == .poweredOn && peripheral.state == .connected else {
             throw PeripheralManagerError.notReady
         }
 
@@ -431,5 +451,19 @@ extension PeripheralManager: CBCentralManagerDelegate {
         default:
             break
         }
+    }
+}
+
+
+extension PeripheralManager {
+    public override var debugDescription: String {
+        var items = [
+            "## PeripheralManager",
+            "peripheral: \(peripheral)",
+        ]
+        queue.sync {
+            items.append("needsConfiguration: \(needsConfiguration)")
+        }
+        return items.joined(separator: "\n")
     }
 }

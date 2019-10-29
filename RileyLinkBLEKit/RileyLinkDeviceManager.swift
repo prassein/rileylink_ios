@@ -12,6 +12,7 @@ import os.log
 public class RileyLinkDeviceManager: NSObject {
     private let log = OSLog(category: "RileyLinkDeviceManager")
 
+    // Isolated to centralQueue
     private var central: CBCentralManager!
 
     private let centralQueue = DispatchQueue(label: "com.rileylink.RileyLinkBLEKit.BluetoothManager.centralQueue", qos: .utility)
@@ -34,16 +35,18 @@ public class RileyLinkDeviceManager: NSObject {
 
         super.init()
 
-        central = CBCentralManager(
-            delegate: self,
-            queue: centralQueue,
-            options: [
-                CBCentralManagerOptionRestoreIdentifierKey: "com.rileylink.CentralManager"
-            ]
-        )
+        centralQueue.sync {
+            central = CBCentralManager(
+                delegate: self,
+                queue: centralQueue,
+                options: [
+                    CBCentralManagerOptionRestoreIdentifierKey: "com.rileylink.CentralManager"
+                ]
+            )
+        }
     }
 
-    // MARK: - Configuration. Not thread-safe.
+    // MARK: - Configuration
 
     public var idleListeningEnabled: Bool {
         if case .disabled = idleListeningState {
@@ -53,22 +56,27 @@ public class RileyLinkDeviceManager: NSObject {
         }
     }
 
-    public var idleListeningState: RileyLinkDevice.IdleListeningState = .disabled {
-        didSet {
-            let newState = self.idleListeningState
-
+    public var idleListeningState: RileyLinkDevice.IdleListeningState {
+        get {
+            return lockedIdleListeningState.value
+        }
+        set {
+            lockedIdleListeningState.value = newValue
             centralQueue.async {
                 for device in self.devices {
-                    device.setIdleListeningState(newState)
+                    device.setIdleListeningState(newValue)
                 }
             }
         }
     }
+    private let lockedIdleListeningState = Locked(RileyLinkDevice.IdleListeningState.disabled)
 
-    public var timerTickEnabled = true {
-        didSet {
-            let newValue = timerTickEnabled
-
+    public var timerTickEnabled: Bool {
+        get {
+            return lockedTimerTickEnabled.value
+        }
+        set {
+            lockedTimerTickEnabled.value = newValue
             centralQueue.async {
                 for device in self.devices {
                     device.setTimerTickEnabled(newValue)
@@ -76,11 +84,18 @@ public class RileyLinkDeviceManager: NSObject {
             }
         }
     }
+    private let lockedTimerTickEnabled = Locked(true)
 }
 
 
 // MARK: - Connecting
 extension RileyLinkDeviceManager {
+    public func getAutoConnectIDs(_ completion: @escaping (_ autoConnectIDs: Set<String>) -> Void) {
+        centralQueue.async {
+            completion(self.autoConnectIDs)
+        }
+    }
+    
     public func connect(_ device: RileyLinkDevice) {
         centralQueue.async {
             self.autoConnectIDs.insert(device.manager.peripheral.identifier.uuidString)
@@ -167,7 +182,7 @@ extension RileyLinkDeviceManager {
         }
     }
 
-    public func deprioritize(_ device: RileyLinkDevice, _ completion: (() -> Void)? = nil) {
+    public func deprioritize(_ device: RileyLinkDevice, completion: (() -> Void)? = nil) {
         centralQueue.async {
             self.devices.deprioritize(device)
             completion?()
@@ -219,7 +234,7 @@ extension RileyLinkDeviceManager {
 // MARK: - Delegate methods called on `centralQueue`
 extension RileyLinkDeviceManager: CBCentralManagerDelegate {
     public func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
-        log.info("%@", #function)
+        log.default("%@", #function)
 
         guard let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral] else {
             return
@@ -231,7 +246,7 @@ extension RileyLinkDeviceManager: CBCentralManagerDelegate {
     }
 
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        log.info("%@: %@", #function, central.state.description)
+        log.default("%@: %@", #function, central.state.description)
         if case .poweredOn = central.state {
             autoConnectDevices()
 
@@ -248,13 +263,13 @@ extension RileyLinkDeviceManager: CBCentralManagerDelegate {
     }
 
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        log.info("Discovered %@ at %@", peripheral, RSSI)
+        log.default("Discovered %@ at %@", peripheral, RSSI)
 
         addPeripheral(peripheral)
 
         // TODO: Should we keep scanning? There's no UI to remove a lost RileyLink, which could result in a battery drain due to indefinite scanning.
         if !isScanningEnabled && central.isScanning && hasDiscoveredAllAutoConnectDevices {
-            log.info("All peripherals discovered")
+            log.default("All peripherals discovered")
             central.stopScan()
         }
     }
@@ -290,7 +305,7 @@ extension RileyLinkDeviceManager {
     public override var debugDescription: String {
         var report = [
             "## RileyLinkDeviceManager",
-            "central: \(central)",
+            "central: \(central!)",
             "autoConnectIDs: \(autoConnectIDs)",
             "timerTickEnabled: \(timerTickEnabled)",
             "idleListeningState: \(idleListeningState)"
@@ -309,3 +324,8 @@ extension RileyLinkDeviceManager {
 extension Notification.Name {
     public static let ManagerDevicesDidChange = Notification.Name("com.rileylink.RileyLinkBLEKit.DevicesDidChange")
 }
+
+extension RileyLinkDeviceManager {
+    public static let autoConnectIDsStateKey = "com.rileylink.RileyLinkBLEKit.AutoConnectIDs"
+}
+
