@@ -120,7 +120,7 @@ public struct MySentryPumpStatusMessageBody: MessageBody, DictionaryRepresentabl
     public let sensorRemainingHours: Int
     public let clockType: ClockType
     
-    public let nextSensorCalibrationDateComponents: DateComponents?
+    public var nextSensorCalibrationDateComponents: DateComponents?
     
     private let rxData: Data
     
