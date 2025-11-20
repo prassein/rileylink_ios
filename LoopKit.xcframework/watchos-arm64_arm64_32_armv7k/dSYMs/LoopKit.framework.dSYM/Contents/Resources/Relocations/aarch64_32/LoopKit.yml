@@ -1,6 +1,6 @@
 ---
 triple:          'arm64_32-apple-darwin'
-binary-path:     '/Users/wbwang/Library/Caches/org.carthage.CarthageKit/DerivedData/26.1.1_17B100/LoopKit/c6444391098b42d26a5ec90cfd6ea52b754087b9/Build/Intermediates.noindex/ArchiveIntermediates/LoopKit/BuildProductsPath/Release-watchos/LoopKit.framework/LoopKit'
+binary-path:     '/Users/wbwang/Library/Caches/org.carthage.CarthageKit/DerivedData/26.1.1_17B100/LoopKit/2382980a2dec943ace362a039c042b178d5a53b5/Build/Intermediates.noindex/ArchiveIntermediates/LoopKit/BuildProductsPath/Release-watchos/LoopKit.framework/LoopKit'
 relocations:
   - { offset: 0x5A8F1, size: 0x4, addend: 0x0, symName: _LoopKitVersionString, symObjAddr: 0x0, symBinAddr: 0x885B0, symSize: 0x0 }
   - { offset: 0x5A922, size: 0x4, addend: 0x0, symName: _LoopKitVersionNumber, symObjAddr: 0x30, symBinAddr: 0x885E0, symSize: 0x0 }
