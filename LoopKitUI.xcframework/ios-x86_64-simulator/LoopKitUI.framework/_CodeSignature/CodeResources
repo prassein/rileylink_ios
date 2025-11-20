@@ -86,7 +86,7 @@
 		</data>
 		<key>DateAndDurationTableViewCell.nib</key>
 		<data>
-		kwvER0TeUJM2A+Xpt8J8vUEfcgk=
+		Cfcizi0Kl/Ca2JB+hNsi2MbVMOs=
 		</data>
 		<key>GlucoseRangeOverrideTableViewCell.nib</key>
 		<data>
@@ -94,7 +94,7 @@
 		</data>
 		<key>GlucoseRangeTableViewCell.nib</key>
 		<data>
-		1ezp5djbgIT45pgZvhWJkvA0M5M=
+		B0W804PJ2S+2czbQEdD82HPIow8=
 		</data>
 		<key>Headers/LoopKitUI-Swift.h</key>
 		<data>
@@ -110,7 +110,7 @@
 		</data>
 		<key>Modules/LoopKitUI.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		TzZRMYLqr/0+yjlUZJi4bXWeJ8Y=
+		yZLLvFXEnaGwWlipI6myG3rJEU0=
 		</data>
 		<key>Modules/LoopKitUI.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -130,7 +130,7 @@
 		</data>
 		<key>RepeatingScheduleValueTableViewCell.nib</key>
 		<data>
-		1V6ZUm/1QPwVFMnmK0AFEyU18nw=
+		8RnxBKeJ9JP0uJE4id8LZ1w/kRo=
 		</data>
 		<key>TextFieldTableViewCell.nib</key>
 		<data>
@@ -607,7 +607,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uqbGlqzWubwJ0fmb/V1Jk55EaLTc8RwFzKNiCw59JoQ=
+			6XhAr6xbO3Yz+m/mYno0o45hTcjpRUlvgfzzQ04jlO8=
 			</data>
 		</dict>
 		<key>GlucoseRangeOverrideTableViewCell.nib</key>
@@ -621,7 +621,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			EgZ8J/ziKgurt+m6a+tJZaW7hdcUhE7EX/7AtqAxPqA=
+			1yLBGihdJhxjLGUBm4+Iodc8lqemmWiKIvrQ52vs3+4=
 			</data>
 		</dict>
 		<key>Headers/LoopKitUI-Swift.h</key>
@@ -642,7 +642,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yPpcwQQZIaEaQP6o2lcSIW2a4IRy4VQcUN9X7toCzVg=
+			MPaZ5fhTFESY7/WJwyf1LZTauNIuCd8nXObzuocewCQ=
 			</data>
 		</dict>
 		<key>Modules/LoopKitUI.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
@@ -677,7 +677,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ajnq4wDCWFWDAMGoRzl0Sec/ceoyBd0uaFGjCueUxXg=
+			+CMiS+rbdtb0CTLqJwRB6K59f5fv6zkKZSksGHFRX9E=
 			</data>
 		</dict>
 		<key>TextFieldTableViewCell.nib</key>
