@@ -1,0 +1,12 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/wbwang/Library/Caches/org.carthage.CarthageKit/DerivedData/26.1.1_17B100/rileylink_ios/a4f8e62ed99d2d88be6b9a4f24d60ae65f4544d9/Build/Products/Release-iphonesimulator/Crypto.framework/Crypto'
+relocations:
+  - { offset: 0x67AA5, size: 0x8, addend: 0x0, symName: _CryptoVersionString, symObjAddr: 0x0, symBinAddr: 0xFE8, symSize: 0x0 }
+  - { offset: 0x67ADA, size: 0x8, addend: 0x0, symName: _CryptoVersionNumber, symObjAddr: 0x30, symBinAddr: 0x1018, symSize: 0x0 }
+  - { offset: 0x67B17, size: 0x8, addend: 0x0, symName: '-[NSData(Conversion) hexadecimalString]', symObjAddr: 0x0, symBinAddr: 0xA70, symSize: 0xFC }
+  - { offset: 0x67B3D, size: 0x8, addend: 0x0, symName: '-[NSData(Conversion) hexadecimalString]', symObjAddr: 0x0, symBinAddr: 0xA70, symSize: 0xFC }
+  - { offset: 0x67BC3, size: 0x8, addend: 0x0, symName: '+[NSData(Conversion) dataWithHexadecimalString:]', symObjAddr: 0xFC, symBinAddr: 0xB6C, symSize: 0xCC }
+  - { offset: 0x67D40, size: 0x8, addend: 0x0, symName: '-[NSString(Crypto) sha1]', symObjAddr: 0x0, symBinAddr: 0xC38, symSize: 0xCC }
+  - { offset: 0x67D55, size: 0x8, addend: 0x0, symName: '-[NSString(Crypto) sha1]', symObjAddr: 0x0, symBinAddr: 0xC38, symSize: 0xCC }
+...
