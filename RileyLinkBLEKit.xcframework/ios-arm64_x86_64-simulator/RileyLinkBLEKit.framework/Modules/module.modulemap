@@ -1,6 +1,0 @@
-framework module RileyLinkBLEKit {
-  umbrella header "RileyLinkBLEKit.h"
-  export *
-
-  module * { export * }
-}

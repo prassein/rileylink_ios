@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,8 @@
 		430D64CE1CB855AB00FCA750 /* RileyLinkBLEKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 430D64CD1CB855AB00FCA750 /* RileyLinkBLEKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		430D64D51CB855AB00FCA750 /* RileyLinkBLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430D64CB1CB855AB00FCA750 /* RileyLinkBLEKit.framework */; };
 		430D64DC1CB855AB00FCA750 /* RileyLinkBLEKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 430D64DB1CB855AB00FCA750 /* RileyLinkBLEKitTests.m */; };
+		430D64E01CB855AB00FCA750 /* RileyLinkBLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430D64CB1CB855AB00FCA750 /* RileyLinkBLEKit.framework */; };
+		430D64E11CB855AB00FCA750 /* RileyLinkBLEKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 430D64CB1CB855AB00FCA750 /* RileyLinkBLEKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		430D64EC1CB85A4300FCA750 /* RileyLinkBLEDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 430D64E81CB85A4300FCA750 /* RileyLinkBLEDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		430D64ED1CB85A4300FCA750 /* RileyLinkBLEDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 430D64E91CB85A4300FCA750 /* RileyLinkBLEDevice.m */; };
 		430D64EE1CB85A4300FCA750 /* RileyLinkBLEManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 430D64EA1CB85A4300FCA750 /* RileyLinkBLEManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,6 +57,10 @@
 		43523ED71CC2C558001850F1 /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E535E91991E36700C2AC49 /* NSData+Conversion.m */; };
 		43722FB11CB9F7640038B7F2 /* RileyLinkKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 43722FB01CB9F7640038B7F2 /* RileyLinkKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43722FB81CB9F7640038B7F2 /* RileyLinkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; };
+		43722FC31CB9F7640038B7F2 /* RileyLinkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; };
+		43722FC41CB9F7640038B7F2 /* RileyLinkKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43722FCB1CB9F7DB0038B7F2 /* MinimedKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; };
+		43722FCC1CB9F7DB0038B7F2 /* RileyLinkBLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430D64CB1CB855AB00FCA750 /* RileyLinkBLEKit.framework */; };
 		438D39221D19011700D40CA4 /* PlaceholderPumpEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D39211D19011700D40CA4 /* PlaceholderPumpEvent.swift */; };
 		439731271CF21C3C00F474E5 /* RileyLinkDeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439731261CF21C3C00F474E5 /* RileyLinkDeviceTableViewCell.swift */; };
 		43A068EC1CF6BA6900F9EFE4 /* ReadRemainingInsulinMessageBodyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A068EB1CF6BA6900F9EFE4 /* ReadRemainingInsulinMessageBodyTests.swift */; };
@@ -69,6 +75,9 @@
 		43C246971D8918AE0031F8D1 /* Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C246951D8918AE0031F8D1 /* Crypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43C246A01D8919E20031F8D1 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C2469F1D8919E20031F8D1 /* Crypto.m */; };
 		43C246A11D891BA80031F8D1 /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = C1E535E91991E36700C2AC49 /* NSData+Conversion.m */; };
+		43C246A61D891DBF0031F8D1 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C246931D8918AE0031F8D1 /* Crypto.framework */; };
+		43C246A91D8A31540031F8D1 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C246931D8918AE0031F8D1 /* Crypto.framework */; };
+		43C246AA1D8A31540031F8D1 /* Crypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C246931D8918AE0031F8D1 /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43C9071B1D863772002BAD29 /* MinimedKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; };
 		43C9071C1D863782002BAD29 /* MinimedKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43CA93251CB8BB33000026B5 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CA93241CB8BB33000026B5 /* CoreBluetooth.framework */; };
@@ -132,32 +141,12 @@
 		54BC44B71DB81B5100340EED /* GetGlucosePageMessageBodyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC44B61DB81B5100340EED /* GetGlucosePageMessageBodyTests.swift */; };
 		54BC44B91DB81D6100340EED /* GetGlucosePageMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC44B81DB81D6100340EED /* GetGlucosePageMessageBody.swift */; };
 		54DA4E851DFDC0A70007F489 /* SensorValueGlucoseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */; };
-		B292F06D2EEAB3B2007C095A /* RileyLinkKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F06A2EEAB3B2007C095A /* RileyLinkKit.xcframework */; };
-		B292F06E2EEAB3B2007C095A /* RileyLinkBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */; };
-		B292F06F2EEAB40E007C095A /* RileyLinkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; };
-		B292F0702EEAB40E007C095A /* RileyLinkKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0742EEAB41A007C095A /* RileyLinkBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */; };
-		B292F0752EEAB41A007C095A /* RileyLinkBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0772EEAB423007C095A /* RileyLinkBLEKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */; };
-		B292F0782EEAB423007C095A /* RileyLinkBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F07C2EEAB468007C095A /* NightscoutUploadKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07B2EEAB468007C095A /* NightscoutUploadKit.xcframework */; };
-		B292F07D2EEAB46F007C095A /* MinimedKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */; };
-		B292F07E2EEAB46F007C095A /* MinimedKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F07F2EEAB479007C095A /* MinimedKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */; };
-		B292F0802EEAB479007C095A /* MinimedKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0822EEAB494007C095A /* Crypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0812EEAB492007C095A /* Crypto.xcframework */; };
-		B292F0832EEAB494007C095A /* Crypto.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0812EEAB492007C095A /* Crypto.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0842EEAB4A1007C095A /* MinimedKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */; };
-		B292F0852EEAB4A1007C095A /* MinimedKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0862EEAB4AD007C095A /* Crypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0812EEAB492007C095A /* Crypto.xcframework */; };
-		B292F0872EEAB4AD007C095A /* Crypto.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0812EEAB492007C095A /* Crypto.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0882EEAB5F9007C095A /* RileyLinkBLEKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F0892EEAB5F9007C095A /* RileyLinkKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F06A2EEAB3B2007C095A /* RileyLinkKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B292F08A2EEAB5F9007C095A /* NightscoutUploadKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B292F07B2EEAB468007C095A /* NightscoutUploadKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C10AB08D1C855613000F102E /* FindDeviceMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */; };
 		C10AB08F1C855F34000F102E /* DeviceLinkMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */; };
 		C10D9BC41C8269D500378342 /* MinimedKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C10D9BC31C8269D500378342 /* MinimedKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C10D9BCB1C8269D500378342 /* MinimedKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; };
+		C10D9BD61C8269D500378342 /* MinimedKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; };
+		C10D9BD71C8269D500378342 /* MinimedKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C121985F1C8DE77D00BC374C /* FindDeviceMessageBodyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C121985E1C8DE77D00BC374C /* FindDeviceMessageBodyTests.swift */; };
 		C12198611C8DEB7B00BC374C /* DeviceLinkMessageBodyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12198601C8DEB7B00BC374C /* DeviceLinkMessageBodyTests.swift */; };
 		C12198631C8DF4C800BC374C /* HistoryPageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12198621C8DF4C800BC374C /* HistoryPageTests.swift */; };
@@ -305,8 +294,12 @@
 		C1AF21F41D4901220088C41D /* TempBasalNightscoutTreatment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AF21EF1D4901220088C41D /* TempBasalNightscoutTreatment.swift */; };
 		C1B3830E1CD0665D00CE7782 /* NightscoutUploadKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C1B3830D1CD0665D00CE7782 /* NightscoutUploadKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C1B383151CD0665D00CE7782 /* NightscoutUploadKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B3830B1CD0665D00CE7782 /* NightscoutUploadKit.framework */; };
+		C1B383201CD0665D00CE7782 /* NightscoutUploadKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B3830B1CD0665D00CE7782 /* NightscoutUploadKit.framework */; };
+		C1B383211CD0665D00CE7782 /* NightscoutUploadKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C1B3830B1CD0665D00CE7782 /* NightscoutUploadKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C1B383281CD0668600CE7782 /* NightscoutUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842C281C908A3C00DB42AC /* NightscoutUploader.swift */; };
 		C1B383291CD0668600CE7782 /* NightscoutPumpEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842C2A1C90DFB600DB42AC /* NightscoutPumpEvents.swift */; };
+		C1B383301CD0680800CE7782 /* MinimedKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10D9BC11C8269D500378342 /* MinimedKit.framework */; };
+		C1B383311CD068C300CE7782 /* RileyLinkBLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430D64CB1CB855AB00FCA750 /* RileyLinkBLEKit.framework */; };
 		C1B383361CD1BA8100CE7782 /* DeviceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B383351CD1BA8100CE7782 /* DeviceDataManager.swift */; };
 		C1B4A94E1D1C423D003B8985 /* NSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B4A94D1D1C423D003B8985 /* NSUserDefaults.swift */; };
 		C1B4A9551D1E613A003B8985 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B4A9521D1E613A003B8985 /* TextFieldTableViewCell.swift */; };
@@ -349,6 +342,7 @@
 		C1EAD6E41C82BA87006DBA60 /* CRC16Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EAD6E31C82BA87006DBA60 /* CRC16Tests.swift */; };
 		C1EB955D1C887FE5002517DF /* HistoryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB955C1C887FE5002517DF /* HistoryPage.swift */; };
 		C1EF58881B3F93FE001C8C80 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = C1EF58871B3F93FE001C8C80 /* Config.m */; };
+		C1F000481EBE352900F65163 /* RileyLinkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; };
 		C1F0004C1EBE68A600F65163 /* DataFrameMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F0004B1EBE68A600F65163 /* DataFrameMessageBody.swift */; };
 		C1F000501EBE727C00F65163 /* BasalScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F0004F1EBE727C00F65163 /* BasalScheduleTests.swift */; };
 		C1F000521EBE73F400F65163 /* BasalSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F000511EBE73F400F65163 /* BasalSchedule.swift */; };
@@ -363,6 +357,13 @@
 			remoteGlobalIDString = 430D64CA1CB855AB00FCA750;
 			remoteInfo = RileyLinkBLEKit;
 		};
+		430D64DE1CB855AB00FCA750 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 430D64CA1CB855AB00FCA750;
+			remoteInfo = RileyLinkBLEKit;
+		};
 		43722FB91CB9F7640038B7F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
@@ -370,14 +371,35 @@
 			remoteGlobalIDString = 43722FAD1CB9F7630038B7F2;
 			remoteInfo = RileyLinkKit;
 		};
-		B292F0712EEAB40E007C095A /* PBXContainerItemProxy */ = {
+		43722FC11CB9F7640038B7F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 43722FAD1CB9F7630038B7F2;
 			remoteInfo = RileyLinkKit;
 		};
+		43C246A21D891D6C0031F8D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43C246921D8918AE0031F8D1;
+			remoteInfo = Crypto;
+		};
+		43C246A41D891DB80031F8D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43C246921D8918AE0031F8D1;
+			remoteInfo = Crypto;
+		};
 		C10D9BCC1C8269D500378342 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C10D9BC01C8269D500378342;
+			remoteInfo = MinimedKit;
+		};
+		C10D9BD41C8269D500378342 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
 			proxyType = 1;
@@ -405,6 +427,13 @@
 			remoteGlobalIDString = C12EA236198B436800309FA4;
 			remoteInfo = RileyLink;
 		};
+		C1B3831E1CD0665D00CE7782 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C12EA22F198B436800309FA4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C1B3830A1CD0665D00CE7782;
+			remoteInfo = NightscoutUploadKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -418,53 +447,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B292F0732EEAB40E007C095A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B292F0702EEAB40E007C095A /* RileyLinkKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B292F0762EEAB41A007C095A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B292F0852EEAB4A1007C095A /* MinimedKit.xcframework in Embed Frameworks */,
-				B292F0752EEAB41A007C095A /* RileyLinkBLEKit.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B292F0792EEAB423007C095A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B292F0802EEAB479007C095A /* MinimedKit.xcframework in Embed Frameworks */,
-				B292F0832EEAB494007C095A /* Crypto.xcframework in Embed Frameworks */,
-				B292F0782EEAB423007C095A /* RileyLinkBLEKit.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C10D9BB81C82614F00378342 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B292F0882EEAB5F9007C095A /* RileyLinkBLEKit.xcframework in Embed Frameworks */,
-				B292F0872EEAB4AD007C095A /* Crypto.xcframework in Embed Frameworks */,
-				B292F0892EEAB5F9007C095A /* RileyLinkKit.xcframework in Embed Frameworks */,
-				B292F08A2EEAB5F9007C095A /* NightscoutUploadKit.xcframework in Embed Frameworks */,
-				B292F07E2EEAB46F007C095A /* MinimedKit.xcframework in Embed Frameworks */,
+				43722FC41CB9F7640038B7F2 /* RileyLinkKit.framework in Embed Frameworks */,
+				43C246AA1D8A31540031F8D1 /* Crypto.framework in Embed Frameworks */,
+				C10D9BD71C8269D500378342 /* MinimedKit.framework in Embed Frameworks */,
+				C1B383211CD0665D00CE7782 /* NightscoutUploadKit.framework in Embed Frameworks */,
+				430D64E11CB855AB00FCA750 /* RileyLinkBLEKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -593,11 +586,6 @@
 		54BC44B61DB81B5100340EED /* GetGlucosePageMessageBodyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetGlucosePageMessageBodyTests.swift; sourceTree = "<group>"; };
 		54BC44B81DB81D6100340EED /* GetGlucosePageMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetGlucosePageMessageBody.swift; sourceTree = "<group>"; };
 		54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorValueGlucoseEvent.swift; sourceTree = "<group>"; };
-		B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RileyLinkBLEKit.xcframework; sourceTree = "<group>"; };
-		B292F06A2EEAB3B2007C095A /* RileyLinkKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RileyLinkKit.xcframework; sourceTree = "<group>"; };
-		B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MinimedKit.xcframework; sourceTree = "<group>"; };
-		B292F07B2EEAB468007C095A /* NightscoutUploadKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = NightscoutUploadKit.xcframework; sourceTree = "<group>"; };
-		B292F0812EEAB492007C095A /* Crypto.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Crypto.xcframework; sourceTree = "<group>"; };
 		C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDeviceMessageBody.swift; sourceTree = "<group>"; };
 		C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceLinkMessageBody.swift; sourceTree = "<group>"; };
 		C10D9BC11C8269D500378342 /* MinimedKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinimedKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -841,8 +829,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B292F0842EEAB4A1007C095A /* MinimedKit.xcframework in Frameworks */,
-				B292F0742EEAB41A007C095A /* RileyLinkBLEKit.xcframework in Frameworks */,
+				43722FCB1CB9F7DB0038B7F2 /* MinimedKit.framework in Frameworks */,
+				43722FCC1CB9F7DB0038B7F2 /* RileyLinkBLEKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,14 +868,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B292F07D2EEAB46F007C095A /* MinimedKit.xcframework in Frameworks */,
-				B292F07C2EEAB468007C095A /* NightscoutUploadKit.xcframework in Frameworks */,
-				B292F06D2EEAB3B2007C095A /* RileyLinkKit.xcframework in Frameworks */,
-				B292F0862EEAB4AD007C095A /* Crypto.xcframework in Frameworks */,
-				B292F06E2EEAB3B2007C095A /* RileyLinkBLEKit.xcframework in Frameworks */,
+				43C246A91D8A31540031F8D1 /* Crypto.framework in Frameworks */,
+				C1B383201CD0665D00CE7782 /* NightscoutUploadKit.framework in Frameworks */,
+				430D64E01CB855AB00FCA750 /* RileyLinkBLEKit.framework in Frameworks */,
 				C12EA23D198B436800309FA4 /* CoreGraphics.framework in Frameworks */,
 				C12EA23F198B436800309FA4 /* UIKit.framework in Frameworks */,
+				43722FC31CB9F7640038B7F2 /* RileyLinkKit.framework in Frameworks */,
 				C12EA23B198B436800309FA4 /* Foundation.framework in Frameworks */,
+				C10D9BD61C8269D500378342 /* MinimedKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,9 +883,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1F000481EBE352900F65163 /* RileyLinkKit.framework in Frameworks */,
 				C12616441B685F0A001FAD87 /* CoreData.framework in Frameworks */,
 				C12EA254198B436800309FA4 /* XCTest.framework in Frameworks */,
-				B292F06F2EEAB40E007C095A /* RileyLinkKit.framework in Frameworks */,
 				C12EA256198B436900309FA4 /* UIKit.framework in Frameworks */,
 				C12EA255198B436800309FA4 /* Foundation.framework in Frameworks */,
 			);
@@ -907,9 +895,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B292F07F2EEAB479007C095A /* MinimedKit.xcframework in Frameworks */,
-				B292F0772EEAB423007C095A /* RileyLinkBLEKit.xcframework in Frameworks */,
-				B292F0822EEAB494007C095A /* Crypto.xcframework in Frameworks */,
+				43C246A61D891DBF0031F8D1 /* Crypto.framework in Frameworks */,
+				C1B383311CD068C300CE7782 /* RileyLinkBLEKit.framework in Frameworks */,
+				C1B383301CD0680800CE7782 /* MinimedKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1244,11 +1232,6 @@
 				C12EA23C198B436800309FA4 /* CoreGraphics.framework */,
 				C12EA23E198B436800309FA4 /* UIKit.framework */,
 				C12EA253198B436800309FA4 /* XCTest.framework */,
-				B292F0692EEAB3B2007C095A /* RileyLinkBLEKit.xcframework */,
-				B292F06A2EEAB3B2007C095A /* RileyLinkKit.xcframework */,
-				B292F07A2EEAB44C007C095A /* MinimedKit.xcframework */,
-				B292F07B2EEAB468007C095A /* NightscoutUploadKit.xcframework */,
-				B292F0812EEAB492007C095A /* Crypto.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1649,7 +1632,6 @@
 				43722FAA1CB9F7630038B7F2 /* Frameworks */,
 				43722FAB1CB9F7630038B7F2 /* Headers */,
 				43722FAC1CB9F7630038B7F2 /* Resources */,
-				B292F0762EEAB41A007C095A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1744,6 +1726,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				43C246A31D891D6C0031F8D1 /* PBXTargetDependency */,
+				C10D9BD51C8269D500378342 /* PBXTargetDependency */,
+				430D64DF1CB855AB00FCA750 /* PBXTargetDependency */,
+				43722FC21CB9F7640038B7F2 /* PBXTargetDependency */,
+				C1B3831F1CD0665D00CE7782 /* PBXTargetDependency */,
 			);
 			name = RileyLink;
 			productName = RileyLink;
@@ -1757,13 +1744,11 @@
 				C12EA24E198B436800309FA4 /* Sources */,
 				C12EA24F198B436800309FA4 /* Frameworks */,
 				C12EA250198B436800309FA4 /* Resources */,
-				B292F0732EEAB40E007C095A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C12EA258198B436900309FA4 /* PBXTargetDependency */,
-				B292F0722EEAB40E007C095A /* PBXTargetDependency */,
 			);
 			name = RileyLinkTests;
 			productName = RileyLinkTests;
@@ -1778,11 +1763,11 @@
 				C1B383071CD0665D00CE7782 /* Frameworks */,
 				C1B383081CD0665D00CE7782 /* Headers */,
 				C1B383091CD0665D00CE7782 /* Resources */,
-				B292F0792EEAB423007C095A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				43C246A51D891DB80031F8D1 /* PBXTargetDependency */,
 			);
 			name = NightscoutUploadKit;
 			productName = NightscoutUploadKit;
@@ -1870,7 +1855,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 			);
 			mainGroup = C12EA22E198B436800309FA4;
@@ -2354,20 +2338,40 @@
 			target = 430D64CA1CB855AB00FCA750 /* RileyLinkBLEKit */;
 			targetProxy = 430D64D61CB855AB00FCA750 /* PBXContainerItemProxy */;
 		};
+		430D64DF1CB855AB00FCA750 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 430D64CA1CB855AB00FCA750 /* RileyLinkBLEKit */;
+			targetProxy = 430D64DE1CB855AB00FCA750 /* PBXContainerItemProxy */;
+		};
 		43722FBA1CB9F7640038B7F2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 43722FAD1CB9F7630038B7F2 /* RileyLinkKit */;
 			targetProxy = 43722FB91CB9F7640038B7F2 /* PBXContainerItemProxy */;
 		};
-		B292F0722EEAB40E007C095A /* PBXTargetDependency */ = {
+		43722FC21CB9F7640038B7F2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 43722FAD1CB9F7630038B7F2 /* RileyLinkKit */;
-			targetProxy = B292F0712EEAB40E007C095A /* PBXContainerItemProxy */;
+			targetProxy = 43722FC11CB9F7640038B7F2 /* PBXContainerItemProxy */;
+		};
+		43C246A31D891D6C0031F8D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43C246921D8918AE0031F8D1 /* Crypto */;
+			targetProxy = 43C246A21D891D6C0031F8D1 /* PBXContainerItemProxy */;
+		};
+		43C246A51D891DB80031F8D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43C246921D8918AE0031F8D1 /* Crypto */;
+			targetProxy = 43C246A41D891DB80031F8D1 /* PBXContainerItemProxy */;
 		};
 		C10D9BCD1C8269D500378342 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C10D9BC01C8269D500378342 /* MinimedKit */;
 			targetProxy = C10D9BCC1C8269D500378342 /* PBXContainerItemProxy */;
+		};
+		C10D9BD51C8269D500378342 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C10D9BC01C8269D500378342 /* MinimedKit */;
+			targetProxy = C10D9BD41C8269D500378342 /* PBXContainerItemProxy */;
 		};
 		C12EA258198B436900309FA4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2383,6 +2387,11 @@
 			isa = PBXTargetDependency;
 			target = C12EA236198B436800309FA4 /* RileyLink */;
 			targetProxy = C1B383181CD0665D00CE7782 /* PBXContainerItemProxy */;
+		};
+		C1B3831F1CD0665D00CE7782 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1B3830A1CD0665D00CE7782 /* NightscoutUploadKit */;
+			targetProxy = C1B3831E1CD0665D00CE7782 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2423,11 +2432,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkBLEKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkBLEKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2455,11 +2460,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkBLEKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkBLEKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2479,11 +2480,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkBLEKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkBLEKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2501,11 +2498,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkBLEKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkBLEKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2530,11 +2523,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2564,11 +2553,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2588,11 +2573,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2611,11 +2592,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = RileyLinkKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.RileyLinkKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2640,11 +2617,7 @@
 				INFOPLIST_FILE = Crypto/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.Crypto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2672,11 +2645,7 @@
 				INFOPLIST_FILE = Crypto/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.Crypto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2702,11 +2671,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MinimedKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.MinimedKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2735,11 +2700,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MinimedKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.MinimedKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2759,11 +2720,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MinimedKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.MinimedKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2782,11 +2739,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = MinimedKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.MinimedKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2886,8 +2839,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2899,16 +2851,14 @@
 		C12EA264198B436900309FA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8RBT6FY7HU;
 				INFOPLIST_FILE = "RileyLink/RileyLink-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prassein.rlapp;
 				PRODUCT_NAME = RileyLink;
 				PROVISIONING_PROFILE = "";
@@ -2922,16 +2872,14 @@
 		C12EA265198B436900309FA4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8RBT6FY7HU;
 				INFOPLIST_FILE = "RileyLink/RileyLink-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prassein.rlapp;
 				PRODUCT_NAME = RileyLink;
 				PROVISIONING_PROFILE = "";
@@ -2951,11 +2899,7 @@
 				DEVELOPMENT_TEAM = 8RBT6FY7HU;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = "RileyLinkTests/RileyLinkTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rileylink.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RileyLinkTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2974,11 +2918,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8RBT6FY7HU;
 				INFOPLIST_FILE = "RileyLinkTests/RileyLinkTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rileylink.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RileyLinkTests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3005,11 +2945,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = NightscoutUploadKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.NightscoutUploadKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3038,11 +2974,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = NightscoutUploadKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.NightscoutUploadKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3061,11 +2993,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = NightscoutUploadKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.NightscoutUploadKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3084,11 +3012,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = NightscoutUploadKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rileylink.NightscoutUploadKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
