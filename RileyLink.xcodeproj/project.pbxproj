@@ -1009,8 +1009,6 @@
 			isa = PBXGroup;
 			children = (
 				43EBE4501EAD238C0073A0B5 /* TimeInterval.swift */,
-				C1E535E81991E36700C2AC49 /* NSData+Conversion.h */,
-				C1E535E91991E36700C2AC49 /* NSData+Conversion.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1400,6 +1398,8 @@
 		C1AA398B1AB67F6A00BC9E33 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C1E535E81991E36700C2AC49 /* NSData+Conversion.h */,
+				C1E535E91991E36700C2AC49 /* NSData+Conversion.m */,
 				C17884601D519F1E00405663 /* BatteryIndicator.swift */,
 				C14FFC5A1D3D74F90049CF85 /* NibLoadable.swift */,
 				C14FFC601D3D75470049CF85 /* UIColor.swift */,
