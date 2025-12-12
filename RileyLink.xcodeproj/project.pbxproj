@@ -143,8 +143,7 @@
 		54DA4E851DFDC0A70007F489 /* SensorValueGlucoseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */; };
 		B21BDD1F2EEBF57500CA5A8E /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */; };
 		B21BDD202EEBF57500CA5A8E /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */; };
-		B21BDD232EEBF6FA00CA5A8E /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = B21BDD222EEBF6FA00CA5A8E /* NSData+Conversion.m */; };
-		B21BDD242EEBF6FA00CA5A8E /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = B21BDD212EEBF6FA00CA5A8E /* NSData+Conversion.h */; };
+		B21BDD2B2EEBF9B600CA5A8E /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = C1E535E81991E36700C2AC49 /* NSData+Conversion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C10AB08D1C855613000F102E /* FindDeviceMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */; };
 		C10AB08F1C855F34000F102E /* DeviceLinkMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */; };
 		C10D9BC41C8269D500378342 /* MinimedKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C10D9BC31C8269D500378342 /* MinimedKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -592,8 +591,6 @@
 		54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorValueGlucoseEvent.swift; sourceTree = "<group>"; };
 		B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
 		B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
-		B21BDD212EEBF6FA00CA5A8E /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
-		B21BDD222EEBF6FA00CA5A8E /* NSData+Conversion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
 		C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDeviceMessageBody.swift; sourceTree = "<group>"; };
 		C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceLinkMessageBody.swift; sourceTree = "<group>"; };
 		C10D9BC11C8269D500378342 /* MinimedKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinimedKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -972,8 +969,6 @@
 		43722FAF1CB9F7630038B7F2 /* RileyLinkKit */ = {
 			isa = PBXGroup;
 			children = (
-				B21BDD212EEBF6FA00CA5A8E /* NSData+Conversion.h */,
-				B21BDD222EEBF6FA00CA5A8E /* NSData+Conversion.m */,
 				C1B4A9511D1E610F003B8985 /* UI */,
 				C170C98C1CECD6CE00F3D8E5 /* Extensions */,
 				43722FB01CB9F7640038B7F2 /* RileyLinkKit.h */,
@@ -1571,7 +1566,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				43722FB11CB9F7640038B7F2 /* RileyLinkKit.h in Headers */,
-				B21BDD242EEBF6FA00CA5A8E /* NSData+Conversion.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1588,6 +1582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C10D9BC41C8269D500378342 /* MinimedKit.h in Headers */,
+				B21BDD2B2EEBF9B600CA5A8E /* NSData+Conversion.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2016,7 +2011,6 @@
 				434AB0961CBA0DF600422F4A /* PumpOps.swift in Sources */,
 				43EBE4531EAD23CE0073A0B5 /* TimeInterval.swift in Sources */,
 				431185AF1CF25A590059ED98 /* IdentifiableClass.swift in Sources */,
-				B21BDD232EEBF6FA00CA5A8E /* NSData+Conversion.m in Sources */,
 				C1B4A9551D1E613A003B8985 /* TextFieldTableViewCell.swift in Sources */,
 				C1B4A9571D1E613A003B8985 /* TextFieldTableViewController.swift in Sources */,
 				434AB0C61CBCB41500422F4A /* RileyLinkDevice.swift in Sources */,
