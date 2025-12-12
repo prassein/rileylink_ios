@@ -141,6 +141,8 @@
 		54BC44B71DB81B5100340EED /* GetGlucosePageMessageBodyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC44B61DB81B5100340EED /* GetGlucosePageMessageBodyTests.swift */; };
 		54BC44B91DB81D6100340EED /* GetGlucosePageMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC44B81DB81D6100340EED /* GetGlucosePageMessageBody.swift */; };
 		54DA4E851DFDC0A70007F489 /* SensorValueGlucoseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */; };
+		B21BDD1F2EEBF57500CA5A8E /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */; };
+		B21BDD202EEBF57500CA5A8E /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */; };
 		C10AB08D1C855613000F102E /* FindDeviceMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */; };
 		C10AB08F1C855F34000F102E /* DeviceLinkMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */; };
 		C10D9BC41C8269D500378342 /* MinimedKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C10D9BC31C8269D500378342 /* MinimedKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -586,6 +588,8 @@
 		54BC44B61DB81B5100340EED /* GetGlucosePageMessageBodyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetGlucosePageMessageBodyTests.swift; sourceTree = "<group>"; };
 		54BC44B81DB81D6100340EED /* GetGlucosePageMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetGlucosePageMessageBody.swift; sourceTree = "<group>"; };
 		54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorValueGlucoseEvent.swift; sourceTree = "<group>"; };
+		B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
+		B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
 		C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDeviceMessageBody.swift; sourceTree = "<group>"; };
 		C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceLinkMessageBody.swift; sourceTree = "<group>"; };
 		C10D9BC11C8269D500378342 /* MinimedKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinimedKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -924,6 +928,8 @@
 		430D64CC1CB855AB00FCA750 /* RileyLinkBLEKit */ = {
 			isa = PBXGroup;
 			children = (
+				B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */,
+				B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */,
 				430D64F01CB89FC000FCA750 /* CmdBase.h */,
 				430D64F11CB89FC000FCA750 /* CmdBase.m */,
 				430D64F21CB89FC000FCA750 /* GetPacketCmd.h */,
@@ -1548,6 +1554,7 @@
 				430D65021CB89FC000FCA750 /* GetPacketCmd.h in Headers */,
 				430D65001CB89FC000FCA750 /* CmdBase.h in Headers */,
 				430D64CE1CB855AB00FCA750 /* RileyLinkBLEKit.h in Headers */,
+				B21BDD202EEBF57500CA5A8E /* NSData+Conversion.h in Headers */,
 				430D65061CB89FC000FCA750 /* ReceivingPacketCmd.h in Headers */,
 				430D65041CB89FC000FCA750 /* GetVersionCmd.h in Headers */,
 			);
@@ -1978,6 +1985,7 @@
 				430D65091CB89FC000FCA750 /* RFPacket.m in Sources */,
 				430D65011CB89FC000FCA750 /* CmdBase.m in Sources */,
 				430D64EF1CB85A4300FCA750 /* RileyLinkBLEManager.m in Sources */,
+				B21BDD1F2EEBF57500CA5A8E /* NSData+Conversion.m in Sources */,
 				430D650B1CB89FC000FCA750 /* SendAndListenCmd.m in Sources */,
 				430D65051CB89FC000FCA750 /* GetVersionCmd.m in Sources */,
 				430D650D1CB89FC000FCA750 /* SendPacketCmd.m in Sources */,
