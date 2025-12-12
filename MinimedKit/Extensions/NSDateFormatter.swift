@@ -9,8 +9,8 @@
 import Foundation
 
 
-extension DateFormatter {
-    class func ISO8601DateFormatter() -> Self {
+public extension DateFormatter {
+    public class func ISO8601DateFormatter() -> Self {
         let formatter = self.init()
         formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")
