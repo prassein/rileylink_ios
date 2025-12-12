@@ -144,6 +144,8 @@
 		B21BDD1F2EEBF57500CA5A8E /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */; };
 		B21BDD202EEBF57500CA5A8E /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */; };
 		B21BDD2B2EEBF9B600CA5A8E /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = C1E535E81991E36700C2AC49 /* NSData+Conversion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2EBA1852EEBFF2C00832F5A /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EBA1842EEBFF2C00832F5A /* NSData+Conversion.m */; };
+		B2EBA1862EEBFF2C00832F5A /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2EBA1832EEBFF2C00832F5A /* NSData+Conversion.h */; };
 		C10AB08D1C855613000F102E /* FindDeviceMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */; };
 		C10AB08F1C855F34000F102E /* DeviceLinkMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */; };
 		C10D9BC41C8269D500378342 /* MinimedKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C10D9BC31C8269D500378342 /* MinimedKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -591,6 +593,8 @@
 		54DA4E841DFDC0A70007F489 /* SensorValueGlucoseEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorValueGlucoseEvent.swift; sourceTree = "<group>"; };
 		B21BDD1D2EEBF57500CA5A8E /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
 		B21BDD1E2EEBF57500CA5A8E /* NSData+Conversion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
+		B2EBA1832EEBFF2C00832F5A /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
+		B2EBA1842EEBFF2C00832F5A /* NSData+Conversion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
 		C10AB08C1C855613000F102E /* FindDeviceMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDeviceMessageBody.swift; sourceTree = "<group>"; };
 		C10AB08E1C855F34000F102E /* DeviceLinkMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceLinkMessageBody.swift; sourceTree = "<group>"; };
 		C10D9BC11C8269D500378342 /* MinimedKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinimedKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -998,6 +1002,8 @@
 		43C246941D8918AE0031F8D1 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				B2EBA1832EEBFF2C00832F5A /* NSData+Conversion.h */,
+				B2EBA1842EEBFF2C00832F5A /* NSData+Conversion.m */,
 				43C246951D8918AE0031F8D1 /* Crypto.h */,
 				43C2469F1D8919E20031F8D1 /* Crypto.m */,
 				43C246961D8918AE0031F8D1 /* Info.plist */,
@@ -1574,6 +1580,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43C246971D8918AE0031F8D1 /* Crypto.h in Headers */,
+				B2EBA1862EEBFF2C00832F5A /* NSData+Conversion.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2045,6 +2052,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2EBA1852EEBFF2C00832F5A /* NSData+Conversion.m in Sources */,
 				43C246A11D891BA80031F8D1 /* NSData+Conversion.m in Sources */,
 				43C246A01D8919E20031F8D1 /* Crypto.m in Sources */,
 			);
